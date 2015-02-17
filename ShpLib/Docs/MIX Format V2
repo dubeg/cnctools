@@ -1,0 +1,105 @@
+MIX Format V2
+-----------------------------------------------
+Name    :    ???
+Games   :    RA, TS
+Desc    :    Container for assets/files
+
+
+Structure
+-----------------------------------------
+Header
+	- Flag			: 4 bytes 
+	- FilesCount 	: 	2 bytes 		Nbr of files in body.
+	- DataSize 		: 	4 bytes 		Size of body.
+	- Indexes[ FilesCount ]
+		- ID 		:	4 bytes 		File ID
+		- Offset 	: 	4 bytes 		Offset of file from the start of the body.
+		- Size 		:   4 bytes 		FileSize 
+
+
+-----------------------------------------------
+Body
+	- Files
+-----------------------------------------------
+
+
+
+
+Notes
+===============================================
+
+- The header is encrypted.
+- Flag indicates if the MIX has a checksum or is encrypted.
+- The checksum can be ignored and deleted.
+- If Mix is not encrypted, there is a normal MIX header after the flag.
+
+const int CHECKSUM_FLAG  = 0x00010000;
+const int ENCRYPTED_FLAG = 0x00020000;
+
+CHECKSUM  => 20 bytes after the body, which contain the checksum.
+ENCRYPTED => 80 bytes block after the flag called key_source.
+			 	* Used to calculate the key to be used with the blowfish encryption.
+
+
+Ok, the MIX header is encrypted by the blowfish algo with a 56 byte key.
+This means that after the key_source, there are a number of 8 byte blocks which should be decrypted.
+
+You can find out how many of those blocks there are by decrypting the first block, which contains the MIX header.
+
+You then look at how many internal files there are and calculate the size of the header and index.
+
+
+IDs
+-----------------------------------------------
+The IDs are used to identify each file. They can be calculated from the original filename. There are two different versions of the ID calculation, one for TD and RA and another for TS. I use the following code to calculate the ID.
+
+
+    name = to_upper(name);              // convert to uppercase
+    if (game != game_ts)
+    {                                   // for TD and RA
+        int i = 0;
+        unsigned int id = 0;
+        int l = name.length();          // length of the filename
+        while (i < l)
+        {
+            unsigned int a = 0;
+            for (int j = 0; j < 4; j++)
+            {
+                a >>= 8;
+                if (i < l)
+                    a += static_cast<unsigned int>(name[i]) << 24;
+                i++;
+            }
+            id = (id << 1 | id >> 31) + a;
+        }
+        return id;
+    }
+    else
+    {                                    // for TS
+        const int l = name.length();
+        int a = l >> 2;
+        if (l & 3)
+        {
+            name += static_cast<char>(l - (a << 2));
+            int i = 3 - (l & 3);
+            while (i--)
+                name += name[a << 2];
+        }
+        Ccrc crc;                        // use a normal CRC function
+        crc.init();
+        crc.do_block(name.c_str(), name.length());
+        return crc.get_crc();
+    }
+
+
+Body
+-----------------------------------------------
+The body contains the internal files in an uncompressed and unencrypted format.
+
+Checksum
+-----------------------------------------------
+The only thing currently known about the checksum is that it's 20 bytes. You can safely delete it, as long as you change the flag.
+
+
+Blowfish
+-----------------------------------------------
