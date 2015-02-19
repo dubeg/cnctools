@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using WinCtrls;
 
 namespace MixManager
 {
@@ -46,24 +47,6 @@ namespace MixManager
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-    }
-
-    public class ReadOnlyTextBox : TextBox
-    {
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern bool HideCaret(IntPtr hWnd);
-
-        public ReadOnlyTextBox()
-        {
-            this.ReadOnly = true;
-            this.GotFocus += TextBoxGotFocus;
-            this.Cursor = Cursors.Arrow; // mouse cursor like in other controls
-        }
-
-        private void TextBoxGotFocus(object sender, EventArgs args)
-        {
-            HideCaret(this.Handle);
         }
     }
 }

@@ -22,8 +22,6 @@ namespace MixManager
         [STAThread]
         static void Main()
         {
-
-
             List<MixDllInfo> dlls = new List<MixDllInfo>();
             List<MixDllInfo> missingDlls = new List<MixDllInfo>();
             dlls.Add(new MixDllInfo(DLG_DLL, false));

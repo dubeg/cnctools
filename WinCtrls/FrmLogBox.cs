@@ -1,4 +1,4 @@
-﻿using Misc.Log4net;
+﻿using Log4NetEx;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MixManager
+namespace WinCtrls
 {
     public partial class FrmLogBox : Form
     {

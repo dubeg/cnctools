@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Misc.Log4net
+namespace Log4NetEx
 {
     public class MemoryAppenderWithEvents : MemoryAppender
     {

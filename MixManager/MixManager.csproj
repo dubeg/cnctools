@@ -69,12 +69,6 @@
     <Compile Include="FrmDllError.Designer.cs">
       <DependentUpon>FrmDllError.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmLogBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmLogBox.Designer.cs">
-      <DependentUpon>FrmLogBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmMixManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,9 +98,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmDllError.resx">
       <DependentUpon>FrmDllError.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmLogBox.resx">
-      <DependentUpon>FrmLogBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMixManager.resx">
       <DependentUpon>FrmMixManager.cs</DependentUpon>
@@ -144,6 +135,10 @@
     <ProjectReference Include="..\WinCtrls\WinCtrls.csproj">
       <Project>{fff41976-3f3e-41b3-8294-ece86d5c6b4f}</Project>
       <Name>WinCtrls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xlog4net\Log4NetEx.csproj">
+      <Project>{6532cf9e-433d-4e60-8921-88fb1c75afc6}</Project>
+      <Name>Log4NetEx</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

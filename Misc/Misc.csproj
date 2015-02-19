@@ -51,9 +51,6 @@
     <Compile Include="Blowfish\BlowfishKeyProvider.cs" />
     <Compile Include="Blowfish\CRC32.cs" />
     <Compile Include="Exts.cs" />
-    <Compile Include="Log4net\LogWatcher.cs" />
-    <Compile Include="Log4net\MemoryAppenderWithEvents.cs" />
-    <Compile Include="Log4net\TextBoxAppender.cs" />
     <Compile Include="NotifiedModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DialogHelper.cs" />

@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\ExternalLibs\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -88,6 +91,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Misc\Misc.csproj">
+      <Project>{a44e203b-f47d-45b3-b69a-bbe2289c0dcb}</Project>
+      <Name>Misc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShpLib\ShpLib.csproj">
       <Project>{d4d3087f-4dc0-448a-b7db-4c4ace83a67a}</Project>
       <Name>ShpLib</Name>

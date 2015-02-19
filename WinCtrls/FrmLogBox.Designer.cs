@@ -1,4 +1,5 @@
-﻿namespace MixManager
+﻿using WinCtrls;
+namespace WinCtrls
 {
     partial class FrmLogBox
     {
@@ -28,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbConsole = new MixManager.ReadOnlyTextBox();
+            this.tbConsole = new ReadOnlyTextBox();
             this.SuspendLayout();
             // 
             // tbConsole

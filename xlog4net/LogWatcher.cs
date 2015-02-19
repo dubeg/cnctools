@@ -1,5 +1,4 @@
-﻿using Misc.Log4net;
-using log4net;
+﻿using log4net;
 using log4net.Appender;
 using log4net.Core;
 using System;
@@ -8,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Misc.Log4net
+namespace Log4NetEx
 {
     public class LogWatcher 
     {

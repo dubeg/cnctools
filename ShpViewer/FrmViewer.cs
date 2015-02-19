@@ -14,8 +14,12 @@ namespace ShpApp
 {
     public partial class FrmViewer : Form
     {
+        // Vars
+        //--------
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Controller _controller;
-
+        // Methods
+        //--------
         public FrmViewer()
         {
             InitializeComponent();

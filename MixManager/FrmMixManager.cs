@@ -10,8 +10,9 @@ using System.Windows.Forms;
 using System.IO;
 using MixManager.Models;
 using System.Threading;
-using Misc.Log4net;
+using Log4NetEx;
 using Misc;
+using WinCtrls;
 
 namespace MixManager
 {
