@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace MixManager
 {
     static class Program
     {
         static readonly string DLG_DLL = "Ookii.Dialogs.dll";
-        static readonly string CTRLS_DLL = "Ctrls.dll";
+        static readonly string CTRLS_DLL = "Misc.dll";
         //static readonly string ORA_DLL = "OpenRA-min.dll";
         static readonly string LOG4NET_DLL = "log4net.dll";
         static readonly string THREADING_DLL = "System.Threading.dll";
