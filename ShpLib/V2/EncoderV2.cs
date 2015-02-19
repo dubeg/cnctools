@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShpLib.Formats;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -105,7 +106,7 @@ namespace ShpLib.V2
                     cFrame.OffsetX, cFrame.OffsetY,
                     cFrame.CompressedWidth, cFrame.CompressedHeight);
 
-                eData = EncodeC3(cData, cFrame.CompressedWidth, cFrame.CompressedHeight);
+                eData = Format2.Encode(cData, cFrame.CompressedWidth, cFrame.CompressedHeight);
 
 
                 if (eData.Length < cData.Length)
@@ -151,66 +152,6 @@ namespace ShpLib.V2
             }
 
             return p1.X > -1 && p1.Y > -1 && p2.X < width && p2.Y < height;
-        }
-
-        private static byte[] EncodeC3(byte[] src, int cx, int cy)
-        {
-            List<Byte> dest = new List<byte>();
-
-            int SP;// Src  Buffer Index
-            int DP;// Dest Buffer Index
-
-            int maxSP;// End of Line index of currently processed line
-            int oldDP;// Dest. Buffer Index before encoding a new line.
-
-            int c;// Compressed Length (Run Length)
-
-            byte v,// Value of current byte 
-                 b1,// Low byte containing the Length of the encoded line
-                 b2;// Hi byte containing the Length of the encoded line
-
-            SP = 0;
-            DP = 0;
-
-            for (int y = 0; y < cy; ++y)
-            {
-                maxSP = SP + cx;
-
-                oldDP = DP;
-                DP += 2;
-                dest.Add(0);
-                dest.Add(0);
-
-                // Encode line (with run length)
-                while (SP < maxSP)
-                {
-                    v = src[SP];
-                    dest.Add(v);
-                    ++DP;
-
-                    if (v > 0)
-                        ++SP;
-                    else
-                    {
-                        c = Utils.GetRunLength(src, SP, maxSP);
-
-                        if (c > 255)
-                            c = 255;
-
-                        SP += c;
-
-                        dest.Add((byte)c);
-                        ++DP;
-                    }
-                }
-
-                //Store Encoded Line Length in two bytes before the beginning of the line.
-                Utils.SplitWord((ushort)(DP - oldDP), out b1, out b2);
-                dest[oldDP] = b1;
-                dest[oldDP + 1] = b2;
-            }
-
-            return dest.ToArray();
         }
 
         private static byte[] ExtractPixels(byte[] pixels, int frameWidth, int offsetX, int offsetY, int cx, int cy)

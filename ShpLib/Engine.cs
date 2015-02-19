@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ShpLib
 {
-    public class Engine
+    public static class Engine
     {
         /// <Notes>
         /// Todo:
@@ -13,28 +13,41 @@ namespace ShpLib
         /// * Provide option 'DecodeOptionsV2.DontUnpad'
         /// </Notes>
 
-        public Engine(){}
-
         public static Frame[] Decode(byte[] data, DecodingOptions option)
         {
+            Frame[] frames = null;
+
             switch (option)
             {
                 case DecodingOptions.ShpV1:
-                    return V1.DecoderV1.Decode(data);
+                    frames = V1.DecoderV1.Decode(data);
+                    break;
                 case DecodingOptions.ShpV2:
-                    return V2.DecoderV2.Decode(data);
+                    frames = V2.DecoderV2.Decode(data);
+                    break;
                 case DecodingOptions.AutoDetect:
                 default:
-                    return TryDecodingAny(data);
-            }    
+                    frames = TryDecodingAny(data);
+                    break;
+            }
+
+            return frames;
         }
 
         public static Frame[] TryDecodingAny(byte[] data)
         {
-            return V1.DecoderV1.Decode(data);
+            Frame[] frames = null;
 
-            //return V2.DecoderV2.Decode(data);
+            try
+            {
+                frames = V1.DecoderV1.Decode(data);
+            }
+            catch (Exception)
+            {
+                frames = V2.DecoderV2.Decode(data);
+            }
 
+            return frames;
         }
 
         public static Frame[] Load(string filename, DecodingOptions option)
@@ -49,6 +62,23 @@ namespace ShpLib
                 return V1.EncoderV1.Encode(framesData, width, height);
             else
                 return V2.EncoderV2.Encode(framesData, width, height);
+        }
+
+        public static void Save(string filename, byte[][] framesData, ushort width, ushort height, EncodingOptions option)
+        {
+            byte[] bytes = null;
+            switch (option)
+            {
+                case EncodingOptions.ShpV1:
+                    bytes = ShpLib.V1.EncoderV1.Encode(framesData, width, height);
+                    break;
+                case EncodingOptions.ShpV2:
+                    bytes = ShpLib.V2.EncoderV2.Encode(framesData, width, height);
+                    break;
+            }
+
+            File.WriteAllBytes(filename, bytes);
+
         }
     }
 }

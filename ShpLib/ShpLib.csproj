@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShpLib</RootNamespace>
     <AssemblyName>ShpCore</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\ShpFileCorruptedException.cs" />
+    <Compile Include="Formats\Format2.cs" />
     <Compile Include="Formats\Format40.cs" />
     <Compile Include="Formats\Format80.cs" />
     <Compile Include="Point2D.cs" />

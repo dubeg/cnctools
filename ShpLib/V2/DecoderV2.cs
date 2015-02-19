@@ -1,9 +1,9 @@
-﻿using System;
+﻿using ShpLib.Formats;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ShpLib.V2
 {
@@ -12,11 +12,6 @@ namespace ShpLib.V2
         //----------------------------------------------------------------
         // Methods
         //----------------------------------------------------------------
-        /// <summary>
-        /// Load Shp from disk.
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
         public static Frame[] Decode(byte[] data)
         {
             using (MemoryStream ms = new MemoryStream(data))
@@ -121,12 +116,6 @@ namespace ShpLib.V2
             }
         }
 
-
-        /// <summary>
-        /// Decompress frame.
-        /// </summary>
-        /// <param name="cFrame"></param>
-        /// <returns></returns>
         private static Frame Decompress(FrameV2 cFrame, ushort frameWidth, ushort frameHeight)
         {
             Frame frame;
@@ -135,7 +124,7 @@ namespace ShpLib.V2
             int dIndex;
 
             if (cFrame.Compression == 3)
-                dData = Decode3(cFrame.Data, cFrame.CompressedWidth, cFrame.CompressedHeight);
+                dData = Format2.Decode(cFrame.Data, cFrame.CompressedWidth, cFrame.CompressedHeight);
             else
                 dData = cFrame.Data;
 
@@ -155,56 +144,6 @@ namespace ShpLib.V2
             }
             return frame;
         }
-
-
-        /// <summary>
-        /// Decode Compression 3.
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dest"></param>
-        /// <param name="cx"></param>
-        /// <param name="cy"></param>
-        private static byte[] Decode3(Byte[] src, int cx, int cy)
-        {
-            byte[] dest = new byte[cx * cy];
-            int SP = 0;
-            int DP = 0;
-
-            int lineLength = 0;
-            int runLength = 0;
-
-            for (int y = 0; y < cy; ++y)
-            {
-                lineLength = Utils.CombineBytes(src[SP], src[SP + 1]) - 2;
-                SP += 2;
-
-                int curX = 0;
-                while (0 < lineLength--)
-                {
-                    byte v = src[SP++];
-
-                    if (v != 0)
-                    {
-                        dest[DP++] = v;
-                        ++curX;
-                    }
-                    else
-                    {
-                        if (SP >= src.Length) break;
-
-                        --lineLength;
-                        runLength = src[SP++];
-
-                        if (curX + runLength > cx)
-                            runLength = cx - curX;
-                        curX += runLength;
-                        DP += runLength;
-                    }
-                }
-            }
-            return dest;
-        }
-
 
         private static uint FindNextOffset(List<FrameV2> cFrames, int currentPosition)
         {
