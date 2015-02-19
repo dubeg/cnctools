@@ -77,6 +77,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Content Include="Configs\log.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,10 +106,12 @@
       <Project>{fff41976-3f3e-41b3-8294-ece86d5c6b4f}</Project>
       <Name>WinCtrls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\xlog4net\Log4NetEx.csproj">
+      <Project>{6532cf9e-433d-4e60-8921-88fb1c75afc6}</Project>
+      <Name>Log4NetEx</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Log\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

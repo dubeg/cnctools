@@ -20,6 +20,7 @@ namespace MixManager
     {
         // Const
         // --------
+        const string _MEMORY_APPENDER_NAME = "MemoryAppender";
         readonly string REL_PATH_IMAGE_REMOVE = Path.GetFullPath("Icons/remove.png");
         readonly string REL_PATH_IMAGE_EXTRACT = Path.GetFullPath("Icons/extract.png");
         readonly string REL_PATH_IMAGE_ADD = Path.GetFullPath("Icons/add.png");
@@ -54,7 +55,7 @@ namespace MixManager
 
         private void FrmMixManager_Load(object sender, EventArgs e)
         {
-            _logWatcher = new LogWatcher();
+            _logWatcher = new LogWatcher(_MEMORY_APPENDER_NAME);
             CreateLogBox();
             _mixController = new MixController();
             

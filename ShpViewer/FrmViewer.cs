@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Log4NetEx;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using WinCtrls;
 
 namespace ShpApp
 {
@@ -16,22 +18,33 @@ namespace ShpApp
     {
         // Vars
         //--------
+        private const string _MEMORY_APPENDER_NAME = "MemoryAppender";
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Controller _controller;
+        private FrmLogBox _logBox;
+        private LogWatcher _logWatcher;
         // Methods
         //--------
         public FrmViewer()
         {
             InitializeComponent();
             _controller = new Controller();
+        }
 
+        private void FrmViewer_Load(object sender, EventArgs e)
+        {
+            // Log console
+            _logWatcher = new LogWatcher(_MEMORY_APPENDER_NAME);
+            InitLogBox();
+
+            // Others
             lbPalettes.DataSource = _controller.PalettesManager.Palettes;
             lbShps.DataSource = _controller.ShpsManager.Shps;
 
             if (_controller.PalettesManager.SelectedPalette != null)
             {
                 lbPalettes.SelectedItem = _controller.PalettesManager.SelectedPalette;
-                SetupPalette(); 
+                SetupPalette();
             }
 
             if (_controller.ShpsManager.SelectedShp != null)
@@ -40,6 +53,33 @@ namespace ShpApp
                 DrawFrame();
             }
         }
+
+
+        private void InitLogBox()
+        {
+            _logBox = new FrmLogBox(_logWatcher);
+            _logBox.Height = 150;
+            _logBox.FormClosed += _logBox_FormClosed;
+            _logBox.Show(this);
+            this.Move += FrmViewer_Move;
+            FrmViewer_Move(this, null);
+        }
+
+        void FrmViewer_Move(object sender, EventArgs e)
+        {
+            if (_logBox != null)
+            {
+                _logBox.Top = this.Bottom;
+                _logBox.Width = this.Width;
+                _logBox.Left = this.Left;
+            }
+        }
+
+        void _logBox_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _logBox = null;
+        }
+
 
         private void SetupPalette()
         {

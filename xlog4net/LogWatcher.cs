@@ -15,6 +15,7 @@ namespace Log4NetEx
         private string logContent;
 
         private MemoryAppenderWithEvents memoryAppender;
+        private string _memoryAppenderName;
 
         public event EventHandler Updated;
 
@@ -24,12 +25,21 @@ namespace Log4NetEx
             get { return logContent; }
         }
 
-        public LogWatcher()
+        public LogWatcher(string memAppenderName)
         {
             _logs = new Queue<string>();
+            _memoryAppenderName = memAppenderName;
 
             // Get the memory appender
-            memoryAppender = (MemoryAppenderWithEvents)Array.Find(LogManager.GetRepository().GetAppenders(), GetMemoryAppender);
+            // memoryAppender = (MemoryAppenderWithEvents)LogManager.GetRepository().GetAppenders().FirstOrDefault(mem => mem.Name == _memoryAppenderName);
+            var appenders = LogManager.GetRepository().GetAppenders();
+            foreach (var mem in appenders)
+            {
+                if (mem.Name == _memoryAppenderName)
+                    memoryAppender = (MemoryAppenderWithEvents)mem;
+                else
+                    Console.Write(mem.Name);
+            }
 
             // Read in the log content
             this.logContent = GetEvents(memoryAppender);
@@ -53,10 +63,10 @@ namespace Log4NetEx
             }
         }
 
-        private static bool GetMemoryAppender(IAppender appender)
+        private bool GetMemoryAppender(IAppender appender)
         {
             // Returns the IAppender named MemoryAppender in the Log4Net.config file
-            if (appender.Name.Equals("MemoryAppender"))
+            if (appender.Name.Equals(_memoryAppenderName))
             {
                 return true;
             }

@@ -30,14 +30,11 @@
         {
             this.pbFrame = new System.Windows.Forms.PictureBox();
             this.lblPalList = new System.Windows.Forms.Label();
-            this.tbConsole = new System.Windows.Forms.TextBox();
             this.palCtrl = new WinCtrls.PaletteControl();
-            this.pnlConsole = new System.Windows.Forms.Panel();
             this.lbPalettes = new System.Windows.Forms.ListBox();
             this.lbShps = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).BeginInit();
-            this.pnlConsole.SuspendLayout();
             this.SuspendLayout();
             // 
             // pbFrame
@@ -59,22 +56,6 @@
             this.lblPalList.TabIndex = 3;
             this.lblPalList.Text = "Available Palettes";
             // 
-            // tbConsole
-            // 
-            this.tbConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.tbConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbConsole.ForeColor = System.Drawing.Color.White;
-            this.tbConsole.Location = new System.Drawing.Point(11, 9);
-            this.tbConsole.Multiline = true;
-            this.tbConsole.Name = "tbConsole";
-            this.tbConsole.ReadOnly = true;
-            this.tbConsole.Size = new System.Drawing.Size(686, 127);
-            this.tbConsole.TabIndex = 4;
-            this.tbConsole.Text = "Console";
-            // 
             // palCtrl
             // 
             this.palCtrl.BackColor = System.Drawing.SystemColors.ActiveCaption;
@@ -82,15 +63,6 @@
             this.palCtrl.Name = "palCtrl";
             this.palCtrl.Size = new System.Drawing.Size(287, 432);
             this.palCtrl.TabIndex = 1;
-            // 
-            // pnlConsole
-            // 
-            this.pnlConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.pnlConsole.Controls.Add(this.tbConsole);
-            this.pnlConsole.Location = new System.Drawing.Point(12, 461);
-            this.pnlConsole.Name = "pnlConsole";
-            this.pnlConsole.Size = new System.Drawing.Size(712, 149);
-            this.pnlConsole.TabIndex = 5;
             // 
             // lbPalettes
             // 
@@ -121,19 +93,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(730, 622);
+            this.ClientSize = new System.Drawing.Size(730, 452);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbShps);
-            this.Controls.Add(this.pnlConsole);
             this.Controls.Add(this.lblPalList);
             this.Controls.Add(this.lbPalettes);
             this.Controls.Add(this.palCtrl);
             this.Controls.Add(this.pbFrame);
             this.Name = "FrmViewer";
             this.Text = "Shp Viewer";
+            this.Load += new System.EventHandler(this.FrmViewer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).EndInit();
-            this.pnlConsole.ResumeLayout(false);
-            this.pnlConsole.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,8 +114,6 @@
         private System.Windows.Forms.PictureBox pbFrame;
         private WinCtrls.PaletteControl palCtrl;
         private System.Windows.Forms.Label lblPalList;
-        private System.Windows.Forms.TextBox tbConsole;
-        private System.Windows.Forms.Panel pnlConsole;
         private System.Windows.Forms.ListBox lbPalettes;
         private System.Windows.Forms.ListBox lbShps;
         private System.Windows.Forms.Label label1;

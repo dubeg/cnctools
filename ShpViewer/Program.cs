@@ -1,8 +1,8 @@
-﻿using System;
+﻿using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
 namespace ShpApp
 {
@@ -14,6 +14,8 @@ namespace ShpApp
         [STAThread]
         static void Main()
         {
+            XmlConfigurator.Configure();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmViewer());
