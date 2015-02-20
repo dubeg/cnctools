@@ -23,6 +23,7 @@ namespace ShpApp
         private Controller _controller;
         private FrmLogBox _logBox;
         private LogWatcher _logWatcher;
+        private ShpModel _currentShp;
         // Methods
         //--------
         public FrmViewer()
@@ -49,12 +50,13 @@ namespace ShpApp
 
             if (_controller.ShpsManager.SelectedShp != null)
             {
-                lbShps.SelectedItem = _controller.ShpsManager.SelectedShp;
+                _currentShp = _controller.ShpsManager.SelectedShp;
+                lbShps.SelectedItem = _currentShp;
                 DrawFrame();
             }
         }
 
-
+        #region LogBox
         private void InitLogBox()
         {
             _logBox = new FrmLogBox(_logWatcher);
@@ -79,7 +81,7 @@ namespace ShpApp
         {
             _logBox = null;
         }
-
+        #endregion
 
         private void SetupPalette()
         {
@@ -151,6 +153,18 @@ namespace ShpApp
 
             bmp.UnlockBits(bmpData);
             return bmp;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            _currentShp.SelectNextFrame();
+            DrawFrame();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            _currentShp.SelectPrecedingFrame();
+            DrawFrame();
         }
     }
 }

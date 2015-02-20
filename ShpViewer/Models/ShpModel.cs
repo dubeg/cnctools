@@ -28,5 +28,17 @@ namespace ShpApp
         {
             return SafeName;
         }
+
+        public void SelectNextFrame()
+        {
+            ++FrameIndex;
+            if (FrameIndex >= Frames.Count) FrameIndex = Frames.Count - 1;
+        }
+
+        public void SelectPrecedingFrame()
+        {
+            --FrameIndex;
+            if (FrameIndex < 0) FrameIndex = 0;
+        }
     }
 }
