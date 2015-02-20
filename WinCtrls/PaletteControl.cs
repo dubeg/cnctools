@@ -61,7 +61,7 @@ namespace WinCtrls
             {
                 for (int y = 0; y < _rows; ++y)
                 {
-                    b.Color = _colors[x * rectWidth + y];
+                    b.Color = _colors[x * _rows + y];
                     rect.Location = new Point(x * rectWidth, y * rectHeight);
                     g.FillRectangle(b, rect);
                 }
@@ -141,5 +141,36 @@ namespace WinCtrls
                 DrawPaletteColorHover(p);
             }
         }
+
+        private void PaletteControl_Resize(object sender, System.EventArgs e)
+        {
+            pbColors.Location = new Point(pbColors.Location.X, pbColors.Location.Y);
+
+            //int width = this.Width - (pbColors.Location.X * 2);
+            //int height = this.Height - (pbColors.Location.Y * 2);
+
+            //pbColors.Width = width - (width >> 3);
+            //pbColors.Height = height - (height >> 5);
+        }
+
+        private void PaletteControl_Load(object sender, System.EventArgs e)
+        {
+            
+        }
+
+        private void pbColors_Resize(object sender, System.EventArgs e)
+        {
+        }
+
+        protected override void OnResize(System.EventArgs e)
+        {
+            base.OnResize(e);
+            int width = this.Width - (pbColors.Location.X * 2);
+            int height = this.Height - (pbColors.Location.Y * 2);
+
+            pbColors.Width = width - (0x07 & width);
+            pbColors.Height = height - (0x0F & height);
+        }
+        
     }
 }

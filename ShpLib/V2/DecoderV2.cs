@@ -49,7 +49,8 @@ namespace ShpLib.V2
                         cFrame.CompressedWidth = reader.ReadUInt16();
                         cFrame.CompressedHeight = reader.ReadUInt16();
                         cFrame.Compression = reader.ReadUInt32();
-                        cFrame.RadarColor = new Color( reader.ReadByte(), reader.ReadByte(), reader.ReadByte()); 
+                        cFrame.RadarColor = new Color( reader.ReadByte(), reader.ReadByte(), reader.ReadByte());
+                        reader.ReadByte();
                         zeros = reader.ReadUInt32();
                         cFrame.FileOffset = reader.ReadUInt32();
 

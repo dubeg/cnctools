@@ -58,7 +58,7 @@ namespace ShpApp
                     switch (EngineOption)
                     {
                         case EngineOptions.ShpLib:
-                            _shps.Add(ConvertToModel(fn, Engine.Decode(fData, DecodingOptions.ShpV1)));
+                            _shps.Add(ConvertToModel(fn, Engine.Decode(fData, DecodingOptions.AutoDetect)));
                             loaded = true;
                             break;
                         case EngineOptions.LibShp:

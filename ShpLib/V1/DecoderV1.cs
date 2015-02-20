@@ -31,6 +31,8 @@ namespace ShpLib.V1
                 shp.FrameWidth = r.ReadUInt16();
                 shp.FrameHeight = r.ReadUInt16();
                 shp.Unknown3 = r.ReadUInt32();
+                if (shp.FrameCount == 0 && shp.FrameWidth != 0)
+                    throw new Exception("Might not be Shp(v1)");
 
                 shp.Frames = new FrameV1[shp.FrameCount];
                 frames = new Frame[shp.FrameCount];
