@@ -12,7 +12,7 @@ namespace ShpLib.V2
     /// </summary>
     public class EncoderV2
     {
-        public static byte[] Encode(byte[][] framesData, ushort width, ushort height)
+        public static byte[] Encode(byte[][] framesData, ushort width, ushort height, Color radarColor)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -22,7 +22,7 @@ namespace ShpLib.V2
                     uint fileOffset;
 
                     shp = new ShpV2();
-                    shp.FrameCount = (ushort)framesData.GetLength(1);
+                    shp.FrameCount = (ushort)framesData.Length;
                     shp.FrameWidth = width;
                     shp.FrameHeight = height;
                     shp.Frames = new List<FrameV2>(shp.FrameCount);
@@ -31,14 +31,15 @@ namespace ShpLib.V2
                     for (int i = 0; i < shp.FrameCount; i++)
                     {
                         FrameV2 cFrame = EncodeFrame(framesData[i], width, height);
+                        cFrame.RadarColor = radarColor;
                         shp.Frames.Add(cFrame);
                     }
-
+                    
                     // Write header.
                     writer.Write(shp.Unknown1);
                     writer.Write(shp.FrameWidth);
-                    writer.Write(shp.FrameCount);
                     writer.Write(shp.FrameHeight);
+                    writer.Write(shp.FrameCount);
 
                     // Write frames headers.
                     fileOffset = (uint)(ShpV2.HEADER_SIZE + FrameV2.HEADER_SIZE * shp.FrameCount);
@@ -58,13 +59,10 @@ namespace ShpLib.V2
                         writer.Write(cFrame.CompressedWidth);
                         writer.Write(cFrame.CompressedHeight);
                         writer.Write(cFrame.Compression);
-                        writer.Write((ushort)cFrame.RadarColor.Red);
-                        writer.Write((ushort)cFrame.RadarColor.Blue);
-                        writer.Write((ushort)cFrame.RadarColor.Green);
-                        writer.Write(0);
-                        writer.Write(0);
-                        writer.Write(0);
-                        writer.Write(0);
+                        writer.Write((byte)cFrame.RadarColor.Red);
+                        writer.Write((byte)cFrame.RadarColor.Blue);
+                        writer.Write((byte)cFrame.RadarColor.Green);
+                        writer.Write((byte)0);
                         writer.Write(0);
                         writer.Write(cFrame.FileOffset);
                     }
@@ -105,7 +103,7 @@ namespace ShpLib.V2
                     data, width,
                     cFrame.OffsetX, cFrame.OffsetY,
                     cFrame.CompressedWidth, cFrame.CompressedHeight);
-
+                
                 eData = Format2.Encode(cData, cFrame.CompressedWidth, cFrame.CompressedHeight);
 
 
@@ -117,7 +115,7 @@ namespace ShpLib.V2
                 else
                 {
                     cFrame.Data = cData;
-                    cFrame.Compression = 1;
+                    cFrame.Compression = 0;
                 }
             }
             return cFrame;
@@ -154,16 +152,16 @@ namespace ShpLib.V2
             return p1.X > -1 && p1.Y > -1 && p2.X < width && p2.Y < height;
         }
 
-        private static byte[] ExtractPixels(byte[] pixels, int frameWidth, int offsetX, int offsetY, int cx, int cy)
+        private static byte[] ExtractPixels(byte[] pixels, int frameWidth, int offsetX, int offsetY, int width, int height)
         {
-            byte[] cPixels = new byte[cx * cy];
+            byte[] cPixels = new byte[width * height];
 
             int destIndex = 0;
-            int srcIndex = offsetX * frameWidth + offsetY;
+            int srcIndex = offsetY * frameWidth + offsetX;
 
-            for (int y = 0; y < cy; y++)
+            for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < cx; x++)
+                for (int x = 0; x < width; x++)
                 {
                     cPixels[destIndex] = pixels[srcIndex + x];
                     ++destIndex;

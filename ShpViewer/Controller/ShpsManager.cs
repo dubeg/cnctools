@@ -41,42 +41,38 @@ namespace ShpApp
             _shps = new ObservableCollection<ShpModel>();
             EngineOption = engineOption;
 
-            if(LoadShp(0))
+            if(LoadShp( ShpFilenames.FirstOrDefault()))
                 SelectShp(0);
         }
 
-        private bool LoadShp(int index)
+        public bool LoadShp(string fn)
         {
-            string fn;
             bool loaded = false;
-            if (index < ShpFilenames.Count)
+            if (fn != null && File.Exists(fn))
             {
-                fn = ShpFilenames[index];
-                if (File.Exists(fn))
+                byte[] fData = File.ReadAllBytes(fn);
+                switch (EngineOption)
                 {
-                    byte[] fData = File.ReadAllBytes(fn);
-                    switch (EngineOption)
-                    {
-                        case EngineOptions.ShpLib:
-                            _shps.Add(ConvertToModel(fn, Engine.Decode(fData, DecodingOptions.AutoDetect)));
-                            loaded = true;
-                            break;
-                        case EngineOptions.LibShp:
-                            //LibShp.ShpGen2 sGen2 = new LibShp.ShpGen2( new MemoryStream(fData));
-                            //_shps.Add( ConvertToModel( sGen2));
-                            break;
-                        case EngineOptions.OpenRA:
-                            //OpenRA.Mods.Common.SpriteLoaders.ShpTSLoader l = new OpenRA.Mods.Common.SpriteLoaders.ShpTSLoader();
-                            //OpenRA.Graphics.ISpriteFrame[] frames;
-                            //l.TryParseSprite(new MemoryStream(fData), out frames);
-                            //_shps.Add(ConvertToModel(fn, frames));
-                            //loaded = true;
-                            break;
-                        default:
-                            break;
-                    }
+                    case EngineOptions.ShpLib:
+                        _shps.Add(ConvertToModel(fn, Engine.Decode(fData, DecodingOptions.AutoDetect)));
+                        loaded = true;
+                        break;
+                    case EngineOptions.LibShp:
+                        //LibShp.ShpGen2 sGen2 = new LibShp.ShpGen2( new MemoryStream(fData));
+                        //_shps.Add( ConvertToModel( sGen2));
+                        break;
+                    case EngineOptions.OpenRA:
+                        //OpenRA.Mods.Common.SpriteLoaders.ShpTSLoader l = new OpenRA.Mods.Common.SpriteLoaders.ShpTSLoader();
+                        //OpenRA.Graphics.ISpriteFrame[] frames;
+                        //l.TryParseSprite(new MemoryStream(fData), out frames);
+                        //_shps.Add(ConvertToModel(fn, frames));
+                        //loaded = true;
+                        break;
+                    default:
+                        break;
                 }
             }
+            
             return loaded;
         }
 
@@ -122,6 +118,18 @@ namespace ShpApp
         public void SelectShp(int index)
         {
                 SelectedShp = _shps[index];
+        }
+
+        public void SaveCurrentShpTo(string filename, EncodingOptions option)
+        {
+
+            byte[][] framesData = new byte[SelectedShp.Frames.Count][];
+            for (int i = 0; i < framesData.GetLength(0); i++)
+            {
+                framesData[i] = SelectedShp.Frames[i];
+            }
+
+            Engine.Save(filename, framesData, (ushort)SelectedShp.Width, (ushort)SelectedShp.Height, option);
         }
     }
 }

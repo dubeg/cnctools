@@ -61,7 +61,7 @@ namespace ShpLib
             if (option == EncodingOptions.ShpV1)
                 return V1.EncoderV1.Encode(framesData, width, height);
             else
-                return V2.EncoderV2.Encode(framesData, width, height);
+                return V2.EncoderV2.Encode(framesData, width, height, new Color(0,0,0));
         }
 
         public static void Save(string filename, byte[][] framesData, ushort width, ushort height, EncodingOptions option)
@@ -73,12 +73,24 @@ namespace ShpLib
                     bytes = ShpLib.V1.EncoderV1.Encode(framesData, width, height);
                     break;
                 case EncodingOptions.ShpV2:
-                    bytes = ShpLib.V2.EncoderV2.Encode(framesData, width, height);
+                    bytes = ShpLib.V2.EncoderV2.Encode(framesData, width, height, new Color(0,0,0));
                     break;
             }
 
             File.WriteAllBytes(filename, bytes);
 
+        }
+
+
+        public static byte[] EncodeSHPv2(byte[][] framesData, ushort width, ushort height, Color radarColor)
+        {
+            return V2.EncoderV2.Encode(framesData, width, height, radarColor);
+        }
+
+        public static void SaveSHPv2(string filename, byte[][] framesData, ushort width, ushort height, Color radarColor)
+        {
+            byte[] bytes = ShpLib.V2.EncoderV2.Encode(framesData, width, height, radarColor);
+            File.WriteAllBytes(filename, bytes);
         }
     }
 }

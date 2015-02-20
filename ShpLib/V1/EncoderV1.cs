@@ -25,7 +25,7 @@ namespace ShpLib.V1
                     uint fileOffset;  // Current FileOffset
 
                     shp = new ShpV1();
-                    shp.FrameCount = (ushort)framesData.GetLength(1);
+                    shp.FrameCount = (ushort)framesData.Length;
                     shp.FrameHeight = width;
                     shp.FrameWidth = height;
 

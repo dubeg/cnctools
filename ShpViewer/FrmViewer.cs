@@ -166,5 +166,67 @@ namespace ShpApp
             _currentShp.SelectPrecedingFrame();
             DrawFrame();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string _SAVE_FILE_DLG_TITLE = "Save shp";
+            string _SAVE_FILE_DLG_FILTER = "Shp(td)|*.shp|Shp(ts)|*.shp";
+            string _SAVE_FILE_DLG_EXT = ".shp";
+
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.AddExtension = true;
+            dlg.DefaultExt = _SAVE_FILE_DLG_EXT;
+            dlg.Filter = _SAVE_FILE_DLG_FILTER;
+            dlg.Title = _SAVE_FILE_DLG_TITLE;
+            dlg.OverwritePrompt = true;
+            dlg.FileName = Path.GetFileName(_currentShp.Filename);
+            switch (dlg.ShowDialog())
+            {
+                case DialogResult.OK:
+                case DialogResult.Yes:
+                    ShpLib.EncodingOptions option = dlg.FilterIndex == 1 ?
+                        ShpLib.EncodingOptions.ShpV1 :
+                        ShpLib.EncodingOptions.ShpV2;
+
+                    _controller.ShpsManager.SaveCurrentShpTo(dlg.FileName, option);
+                    break;
+                case DialogResult.Abort:
+                case DialogResult.Cancel:
+                case DialogResult.Ignore:
+                case DialogResult.No:
+                case DialogResult.None:
+                case DialogResult.Retry:
+                default:
+                    break;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string _OPEN_FILE_DLG_TITLE = "Open .shp";
+            string _OPEN_FILE_DLG_FILTER = "SHP file (*.shp)|*.shp";
+            string _OPEN_FILE_DLG_EXT = ".shp";
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.AddExtension = true;
+            dlg.DefaultExt = _OPEN_FILE_DLG_EXT;
+            dlg.Filter = _OPEN_FILE_DLG_FILTER;
+            dlg.Title = _OPEN_FILE_DLG_TITLE;
+            switch (dlg.ShowDialog())
+            {
+                case DialogResult.OK:
+                case DialogResult.Yes:
+                    _controller.ShpsManager.LoadShp(dlg.FileName);
+                    break;
+                case DialogResult.Abort:
+                case DialogResult.Cancel:
+                case DialogResult.Ignore:
+                case DialogResult.No:
+                case DialogResult.None:
+                case DialogResult.Retry:
+                default:
+                    break;
+            }
+        }
     }
 }
