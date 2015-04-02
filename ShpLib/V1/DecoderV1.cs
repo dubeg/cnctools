@@ -12,12 +12,12 @@ namespace ShpLib.V1
         //----------------------------------------------------------------
         // Methods
         //----------------------------------------------------------------
-        public static Frame[] Decode(byte[] data)
+        public static Frame[] Decode(byte[] data, out ShpV1 shp)
         {
             Frame[] frames;
             using (MemoryStream ms = new MemoryStream(data))
             {
-                ShpV1 shp;
+                //ShpV1 shp;
                 BinaryReader r;
 
 

@@ -8,6 +8,7 @@ namespace ShpApp
 {
     public class ShpModel
     {
+        public object RawShp { get; set; }
         public string Filename { get; private set; }
         public string SafeName { get { return Path.GetFileName(Filename); } }
         public List<byte[]> Frames { get; private set; }

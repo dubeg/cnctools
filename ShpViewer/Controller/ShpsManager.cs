@@ -26,6 +26,7 @@ namespace ShpApp
         }
         // Vars
         // --------
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private ObservableCollection<ShpModel> _shps;
         // Props
         // --------
@@ -50,11 +51,10 @@ namespace ShpApp
             bool loaded = false;
             if (fn != null && File.Exists(fn))
             {
-                byte[] fData = File.ReadAllBytes(fn);
                 switch (EngineOption)
                 {
                     case EngineOptions.ShpLib:
-                        _shps.Add(ConvertToModel(fn, Engine.Decode(fData, DecodingOptions.AutoDetect)));
+                        ReadShp(fn);
                         loaded = true;
                         break;
                     case EngineOptions.LibShp:
@@ -102,16 +102,42 @@ namespace ShpApp
             return shp;
         }
         */
-        public ShpModel ConvertToModel(string fn, ShpLib.Frame[] frames)
+        public void ReadShp(string fn)
+        {
+            ShpLib.V1.ShpV1 shpV1;
+            ShpLib.V2.ShpV2 shpV2;
+            Frame[] frames;
+            byte[] fData = File.ReadAllBytes(fn);
+            try
+            {
+                log.Info("Trying now - decoding shpV1");
+                frames = ShpLib.V1.DecoderV1.Decode(fData, out shpV1);
+                log.Info("Success");
+                _shps.Add(ConvertToModel(fn, frames, shpV1));
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+                log.Info("Trying now - decoding shpV2");
+                frames = ShpLib.V2.DecoderV2.Decode(fData, out shpV2);
+                log.Info("Success");
+                _shps.Add(ConvertToModel(fn, frames, shpV2));
+            }
+        }
+
+        public ShpModel ConvertToModel(string fn, ShpLib.Frame[] frames, object rawShp)
         {
             ShpModel shp = new ShpModel(fn);
             shp.FrameIndex = frames.Length > 0 ? 0 : -1;
+            shp.RawShp = rawShp;
+
             for (int i = 0; i < frames.Length; i++)
             {
                 shp.Width = frames[i].Width;
                 shp.Height = frames[i].Height;
                 shp.Frames.Add(frames[i].Pixels);
             }
+            
             return shp;
         }
 

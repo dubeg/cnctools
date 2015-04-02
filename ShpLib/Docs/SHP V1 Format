@@ -10,11 +10,11 @@ Structure
     Header
     -----------------------------------------
         - FrameCount  :    2 Bytes, unsigned word
-        - Unknown1    :    2 Bytes, ??
-        - Unknown2    :    2 Bytes, ??
+        - Unknown1    :    2 Bytes, ??              WSA:: X position on screen of the upper left corner
+        - Unknown2    :    2 Bytes, ??              WSA:: Y position on screen of the upper left corner
         - FrameWidth  :    2 Bytes, unsigned word
         - FrameHeight :    2 Bytes, unsigned word
-        - Unknown3    :    4 Bytes, ??
+        - Unknown3    :    4 Bytes, ??              WSA:: Delta (frames/sec = delta / (2^10)
         - FrameHeaders [ FrameCount ]
             - Offset    :     3 Bytes, unsigned word.       // Offset of frame data in file (from the beginning of file)
             - Format    :     1 Byte                       // Format of frame data

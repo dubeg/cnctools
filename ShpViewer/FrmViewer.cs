@@ -24,6 +24,7 @@ namespace ShpApp
         private FrmLogBox _logBox;
         private LogWatcher _logWatcher;
         private ShpModel _currentShp;
+        private Bitmap _bmp;
         // Methods
         //--------
         public FrmViewer()
@@ -42,17 +43,17 @@ namespace ShpApp
             lbPalettes.DataSource = _controller.PalettesManager.Palettes;
             lbShps.DataSource = _controller.ShpsManager.Shps;
 
-            if (_controller.PalettesManager.SelectedPalette != null)
-            {
-                lbPalettes.SelectedItem = _controller.PalettesManager.SelectedPalette;
-                SetupPalette();
-            }
-
             if (_controller.ShpsManager.SelectedShp != null)
             {
                 _currentShp = _controller.ShpsManager.SelectedShp;
                 lbShps.SelectedItem = _currentShp;
                 DrawFrame();
+            }
+
+            if (_controller.PalettesManager.SelectedPalette != null)
+            {
+                lbPalettes.SelectedItem = _controller.PalettesManager.SelectedPalette;
+                SetupPalette();
             }
         }
 
@@ -87,26 +88,27 @@ namespace ShpApp
         {
             palCtrl.SetTitle(_controller.PalettesManager.SelectedPalette.Name);
             palCtrl.SetColors(_controller.PalettesManager.SelectedPalette.Colors);
+
+            if (_bmp != null)
+                SetFramePalette();
+        }
+
+        public void SetFramePalette()
+        {
+            Color[] colors = _controller.PalettesManager.SelectedPalette.Colors;
+            ColorPalette pal = _bmp.Palette;
+            SetColors(pal, colors);
+            _bmp.Palette = pal;
+            pbFrame.Invalidate();
         }
 
         public void DrawFrame()
         {
-
-            Bitmap bmp;
             ShpModel shp = _controller.ShpsManager.SelectedShp;
-            Setbitmap(shp, out bmp);
+            Setbitmap(shp, out _bmp);
 
-            // Conditional colors
-            if (_controller.PalettesManager.SelectedPalette != null)
-            {
-                Color[] colors = _controller.PalettesManager.SelectedPalette.Colors;
-                ColorPalette pal = bmp.Palette;
-                SetColors(pal, colors);
-                bmp.Palette = pal;
-            }
-
-            if (bmp != null)
-                pbFrame.Image = bmp;
+            if (_bmp != null)
+                pbFrame.Image = _bmp;
         }
 
         private void SetColors(ColorPalette pal, Color[] colors)
@@ -155,19 +157,21 @@ namespace ShpApp
             return bmp;
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void btnNextFrame_Click(object sender, EventArgs e)
         {
             _currentShp.SelectNextFrame();
             DrawFrame();
+            SetFramePalette();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnPrecedingFrame_Click(object sender, EventArgs e)
         {
             _currentShp.SelectPrecedingFrame();
             DrawFrame();
+            SetFramePalette();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
             string _SAVE_FILE_DLG_TITLE = "Save shp";
             string _SAVE_FILE_DLG_FILTER = "Shp(td)|*.shp|Shp(ts)|*.shp";
@@ -201,7 +205,7 @@ namespace ShpApp
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnOpen_Click(object sender, EventArgs e)
         {
             string _OPEN_FILE_DLG_TITLE = "Open .shp";
             string _OPEN_FILE_DLG_FILTER = "SHP file (*.shp)|*.shp";
@@ -227,6 +231,12 @@ namespace ShpApp
                 default:
                     break;
             }
+        }
+
+        private void lbPalettes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _controller.PalettesManager.SelectPalette(lbPalettes.SelectedIndex);
+            SetupPalette();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ShpLib.V1;
+using ShpLib.V2;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -10,20 +12,22 @@ namespace ShpLib
         /// <Notes>
         /// Todo:
         /// * One Decode/Encode fn each for V1 and V2
-        /// * Provide option 'DecodeOptionsV2.DontUnpad'
+        /// * Provide option 'DecodeOptionsV2.DontUnpad' or 'NoPadding'
         /// </Notes>
 
         public static Frame[] Decode(byte[] data, DecodingOptions option)
         {
             Frame[] frames = null;
+            ShpV1 shp;//dummy
+            ShpV2 shp2;//dummy
 
             switch (option)
             {
                 case DecodingOptions.ShpV1:
-                    frames = V1.DecoderV1.Decode(data);
+                    frames = V1.DecoderV1.Decode(data, out shp);
                     break;
                 case DecodingOptions.ShpV2:
-                    frames = V2.DecoderV2.Decode(data);
+                    frames = V2.DecoderV2.Decode(data, out shp2);
                     break;
                 case DecodingOptions.AutoDetect:
                 default:
@@ -37,14 +41,16 @@ namespace ShpLib
         public static Frame[] TryDecodingAny(byte[] data)
         {
             Frame[] frames = null;
+            ShpV1 shp;//dummy
+            ShpV2 shp2;//dummy
 
             try
             {
-                frames = V1.DecoderV1.Decode(data);
+                frames = V1.DecoderV1.Decode(data, out shp);
             }
             catch (Exception)
             {
-                frames = V2.DecoderV2.Decode(data);
+                frames = V2.DecoderV2.Decode(data, out shp2);
             }
 
             return frames;
@@ -80,7 +86,6 @@ namespace ShpLib
             File.WriteAllBytes(filename, bytes);
 
         }
-
 
         public static byte[] EncodeSHPv2(byte[][] framesData, ushort width, ushort height, Color radarColor)
         {
