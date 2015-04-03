@@ -30,9 +30,6 @@
         {
             this.lbPalettes = new System.Windows.Forms.ListBox();
             this.lbShps = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.tbIndex = new System.Windows.Forms.TextBox();
@@ -59,13 +56,14 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tbHeaderFrameCount = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.lblMessage = new System.Windows.Forms.Label();
             this.palCtrl = new WinCtrls.PaletteControl();
             this.pnlFrame = new System.Windows.Forms.Panel();
             this.pbFrame = new WinCtrls.PictureBoxIndexed();
             this.gbFrameV1 = new System.Windows.Forms.GroupBox();
             this.tbFrameFormatV1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.tbZoom = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.gbV2.SuspendLayout();
             this.gbV1.SuspendLayout();
             this.gbHeader.SuspendLayout();
@@ -91,41 +89,6 @@
             this.lbShps.Size = new System.Drawing.Size(287, 95);
             this.lbShps.TabIndex = 6;
             this.lbShps.SelectedIndexChanged += new System.EventHandler(this.lbShps_SelectedIndexChanged);
-            // 
-            // button1
-            // 
-            this.button1.Enabled = false;
-            this.button1.Location = new System.Drawing.Point(746, 533);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Open";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-            this.button2.Enabled = false;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(746, 613);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Close";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(746, 562);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Save";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // button4
             // 
@@ -158,16 +121,16 @@
             // 
             this.gbV2.Controls.Add(this.tbZero);
             this.gbV2.Controls.Add(this.label2);
-            this.gbV2.Location = new System.Drawing.Point(305, 508);
+            this.gbV2.Location = new System.Drawing.Point(492, 438);
             this.gbV2.Name = "gbV2";
-            this.gbV2.Size = new System.Drawing.Size(360, 88);
+            this.gbV2.Size = new System.Drawing.Size(176, 165);
             this.gbV2.TabIndex = 13;
             this.gbV2.TabStop = false;
             this.gbV2.Text = "Shp V2";
             // 
             // tbZero
             // 
-            this.tbZero.Location = new System.Drawing.Point(70, 22);
+            this.tbZero.Location = new System.Drawing.Point(62, 22);
             this.tbZero.Name = "tbZero";
             this.tbZero.ReadOnly = true;
             this.tbZero.Size = new System.Drawing.Size(100, 20);
@@ -176,7 +139,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 25);
+            this.label2.Location = new System.Drawing.Point(7, 25);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 4;
@@ -194,16 +157,16 @@
             this.gbV1.Controls.Add(this.lblC);
             this.gbV1.Controls.Add(this.lblB);
             this.gbV1.Controls.Add(this.label1);
-            this.gbV1.Location = new System.Drawing.Point(305, 397);
+            this.gbV1.Location = new System.Drawing.Point(302, 438);
             this.gbV1.Name = "gbV1";
-            this.gbV1.Size = new System.Drawing.Size(360, 100);
+            this.gbV1.Size = new System.Drawing.Size(184, 165);
             this.gbV1.TabIndex = 14;
             this.gbV1.TabStop = false;
             this.gbV1.Text = "Shp V1";
             // 
             // tbZeroV1
             // 
-            this.tbZeroV1.Location = new System.Drawing.Point(254, 47);
+            this.tbZeroV1.Location = new System.Drawing.Point(70, 117);
             this.tbZeroV1.Name = "tbZeroV1";
             this.tbZeroV1.ReadOnly = true;
             this.tbZeroV1.Size = new System.Drawing.Size(100, 20);
@@ -212,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(199, 50);
+            this.label5.Location = new System.Drawing.Point(15, 120);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 13);
             this.label5.TabIndex = 8;
@@ -220,7 +183,7 @@
             // 
             // tbFilesizeV1
             // 
-            this.tbFilesizeV1.Location = new System.Drawing.Point(254, 24);
+            this.tbFilesizeV1.Location = new System.Drawing.Point(70, 94);
             this.tbFilesizeV1.Name = "tbFilesizeV1";
             this.tbFilesizeV1.ReadOnly = true;
             this.tbFilesizeV1.Size = new System.Drawing.Size(100, 20);
@@ -229,7 +192,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(199, 27);
+            this.label3.Location = new System.Drawing.Point(15, 97);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 6;
@@ -312,16 +275,16 @@
             this.gbHeader.Controls.Add(this.label8);
             this.gbHeader.Controls.Add(this.tbHeaderFrameCount);
             this.gbHeader.Controls.Add(this.label9);
-            this.gbHeader.Location = new System.Drawing.Point(305, 322);
+            this.gbHeader.Location = new System.Drawing.Point(302, 363);
             this.gbHeader.Name = "gbHeader";
-            this.gbHeader.Size = new System.Drawing.Size(360, 69);
+            this.gbHeader.Size = new System.Drawing.Size(366, 69);
             this.gbHeader.TabIndex = 14;
             this.gbHeader.TabStop = false;
             this.gbHeader.Text = "Header";
             // 
             // tbHeaderHeight
             // 
-            this.tbHeaderHeight.Location = new System.Drawing.Point(254, 40);
+            this.tbHeaderHeight.Location = new System.Drawing.Point(252, 39);
             this.tbHeaderHeight.Name = "tbHeaderHeight";
             this.tbHeaderHeight.ReadOnly = true;
             this.tbHeaderHeight.Size = new System.Drawing.Size(100, 20);
@@ -330,7 +293,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(199, 43);
+            this.label7.Location = new System.Drawing.Point(197, 42);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(38, 13);
             this.label7.TabIndex = 10;
@@ -338,7 +301,7 @@
             // 
             // tbHeaderWidth
             // 
-            this.tbHeaderWidth.Location = new System.Drawing.Point(254, 17);
+            this.tbHeaderWidth.Location = new System.Drawing.Point(252, 16);
             this.tbHeaderWidth.Name = "tbHeaderWidth";
             this.tbHeaderWidth.ReadOnly = true;
             this.tbHeaderWidth.Size = new System.Drawing.Size(100, 20);
@@ -347,7 +310,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(199, 20);
+            this.label8.Location = new System.Drawing.Point(197, 19);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(35, 13);
             this.label8.TabIndex = 8;
@@ -355,7 +318,7 @@
             // 
             // tbHeaderFrameCount
             // 
-            this.tbHeaderFrameCount.Location = new System.Drawing.Point(74, 17);
+            this.tbHeaderFrameCount.Location = new System.Drawing.Point(70, 16);
             this.tbHeaderFrameCount.Name = "tbHeaderFrameCount";
             this.tbHeaderFrameCount.ReadOnly = true;
             this.tbHeaderFrameCount.Size = new System.Drawing.Size(100, 20);
@@ -364,20 +327,11 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(19, 20);
+            this.label9.Location = new System.Drawing.Point(15, 19);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(41, 13);
             this.label9.TabIndex = 4;
             this.label9.Text = "Frames";
-            // 
-            // lblMessage
-            // 
-            this.lblMessage.AutoSize = true;
-            this.lblMessage.Location = new System.Drawing.Point(12, 618);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(53, 13);
-            this.lblMessage.TabIndex = 17;
-            this.lblMessage.Text = "Message.";
             // 
             // palCtrl
             // 
@@ -435,14 +389,33 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "Format";
             // 
+            // tbZoom
+            // 
+            this.tbZoom.Location = new System.Drawing.Point(394, 322);
+            this.tbZoom.Name = "tbZoom";
+            this.tbZoom.Size = new System.Drawing.Size(52, 20);
+            this.tbZoom.TabIndex = 20;
+            this.tbZoom.TextChanged += new System.EventHandler(this.tbZoom_TextChanged);
+            this.tbZoom.Leave += new System.EventHandler(this.tbZoom_Leave);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(452, 325);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(34, 13);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Zoom";
+            // 
             // FrmViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 649);
+            this.ClientSize = new System.Drawing.Size(805, 616);
+            this.Controls.Add(this.tbZoom);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.gbFrameV1);
             this.Controls.Add(this.pnlFrame);
-            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.gbHeader);
             this.Controls.Add(this.lblCount);
             this.Controls.Add(this.lblSlashCount);
@@ -451,9 +424,6 @@
             this.Controls.Add(this.tbIndex);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.lbShps);
             this.Controls.Add(this.lbPalettes);
             this.Controls.Add(this.palCtrl);
@@ -480,9 +450,6 @@
         private WinCtrls.PaletteControl palCtrl;
         private System.Windows.Forms.ListBox lbPalettes;
         private System.Windows.Forms.ListBox lbShps;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox tbIndex;
@@ -509,12 +476,13 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbHeaderFrameCount;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Panel pnlFrame;
         private WinCtrls.PictureBoxIndexed pbFrame;
         private System.Windows.Forms.GroupBox gbFrameV1;
         private System.Windows.Forms.TextBox tbFrameFormatV1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbZoom;
+        private System.Windows.Forms.Label label6;
     }
 }
 

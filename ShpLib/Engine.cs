@@ -9,12 +9,6 @@ namespace ShpLib
 {
     public static class Engine
     {
-        /// <Notes>
-        /// Todo:
-        /// * One Decode/Encode fn each for V1 and V2
-        /// * Provide option 'DecodeOptionsV2.DontUnpad' or 'NoPadding'
-        /// </Notes>
-
         public static Frame[] Decode(byte[] data, DecodingOptions option)
         {
             Frame[] frames = null;

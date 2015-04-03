@@ -62,12 +62,6 @@
     <Compile Include="V2\EncoderV2.cs" />
     <Compile Include="V2\ShpV2.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OpenRA-min\OpenRA-min.csproj">
-      <Project>{ff295f48-d691-495c-95b9-ed7b8dcf8119}</Project>
-      <Name>OpenRA-min</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

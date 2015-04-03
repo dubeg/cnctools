@@ -22,7 +22,8 @@ namespace ShpApp
         //--------
         private const string _MEMORY_APPENDER_NAME = "MemoryAppender";
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private int _zoom = 4;
+        private int _zoom;
+        private bool _invalidZoom;
         private Controller _controller;
         private FrmLogBox _logBox;
         private LogWatcher _logWatcher;
@@ -32,6 +33,10 @@ namespace ShpApp
         public FrmViewer()
         {
             InitializeComponent();
+            _zoom = 1;
+            _invalidZoom = false;
+
+            tbZoom.Text = _zoom.ToString();
         }
 
         private void FrmViewer_Load(object sender, EventArgs e)
@@ -113,7 +118,7 @@ namespace ShpApp
                 tbHeaderWidth.Text = v2.FrameWidth.ToString();
             }
 
-            lblCount.Text = shp.Frames.Count.ToString();
+            lblCount.Text = (shp.Frames.Count - 1).ToString();
             SetupFrame(shp);
         }
 
@@ -302,6 +307,42 @@ namespace ShpApp
                 _controller.ShpsManager.SelectShp(lbShps.SelectedIndex);
                 SetupShp(_controller.ShpsManager.SelectedShp);
             }
+        }
+
+        private void tbZoom_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int value = Convert.ToInt32(tbZoom.Text);
+                if (value > 0 && value < 5)
+                {
+                    _zoom = value;
+                    SetupFrame(_controller.ShpsManager.SelectedShp);
+                    SetupPalette();
+                    _invalidZoom = false;
+                }
+                else
+                {
+                    log.Error("Zoom, values in range: [0,4]");
+                    _invalidZoom = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Zoom, invalid value: " + tbZoom.Text);
+                _invalidZoom = true;
+            }
+        }
+
+        private void tbZoom_Leave(object sender, EventArgs e)
+        {
+            if (_invalidZoom)
+                tbZoom.Text = _zoom.ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
