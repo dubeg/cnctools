@@ -37,12 +37,14 @@ namespace ShpLib.Formats
             }
         }
 
+        // cmd#1
         private static void CopyAsIs(Stream ss, byte[] dest, ref int di, byte v)
         {
             int count = v & 0x3F;
             for (int j = 0; j < count; ++j)
                 dest[di++] = ((byte)ss.ReadByte());
         }
+        // cmd#2
         private static void RepeatCopy(Stream ss, byte[] dest, ref int di, byte v)
         {
             int count = ((v & 0x70) >> 4) + 3;
@@ -51,26 +53,27 @@ namespace ShpLib.Formats
 
             if (relPos == 1)
             {
-                pos = di - relPos;
-
-                for (int i = 0; i < count; i++)
-                    dest[di++] = dest[pos++];
-            }
-            else
-            {
                 v = dest[di - 1];
                 for (int i = 0; i < count; i++)
                     dest[di++] = v;
             }
+            else
+            {
+                pos = di - relPos;
+                for (int i = 0; i < count; i++)
+                    dest[di++] = dest[pos++];
+            }
         }
+        // cmd#3
         private static void Copy(Stream ss, byte[] dest, ref int di, byte v)
         {
-            int count = ((v & 0x3F) + 3);
+            int count = (v+3);
             int pos = ss.ReadByte() | ( ss.ReadByte() << 8 );
             
             for (int i = 0; i < count; i++)
                 dest[di++] = dest[pos++];
         }
+        // cmd#5
         private static void LargeCopy(Stream ss, byte[] dest, ref int di)
         {
             int count = ss.ReadByte() | (ss.ReadByte() << 8);
@@ -79,6 +82,7 @@ namespace ShpLib.Formats
             for (int i = 0; i < count; i++)
                 dest[di++] = dest[pos++];
         }
+        // cmd#4
         private static void Fill(Stream ss, byte[] dest, ref int di)
         {
             int count = (ss.ReadByte() | (ss.ReadByte() << 8));

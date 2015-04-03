@@ -97,7 +97,7 @@ namespace ShpLib.V1
 
                             // Checking corruption.
                             if (refData == null)
-                                throw new Exception("Loading SHPv1: Reference frame NOT FOUND. ");
+                                throw new Exception("Format40: invalid reference value (0x0). ");
 
                             // Copy reference frame
                             for (int j = 0; j < refData.Length; j++)
@@ -116,8 +116,7 @@ namespace ShpLib.V1
                             Format40.DecodeInto(f.Data, dF.Pixels);
                             break;
                         default:
-                            throw new Exception("Loading SHPv1: Unsupported Encoding Format. File may be corrupted.");
-                            break;
+                            throw new Exception("Format: invalid format value (" + f.Format + ")");
                     }
                 }
 
