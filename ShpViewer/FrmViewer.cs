@@ -135,6 +135,7 @@ namespace ShpApp
                 ShpV2 v2 = (ShpV2)shp.RawShp;
             }
             DrawFrame(shp);
+            SetFramePalette();
         }
 
         private void SetupPalette()
@@ -219,14 +220,12 @@ namespace ShpApp
         {
             _controller.ShpsManager.SelectedShp.SelectNextFrame();
             SetupFrame(_controller.ShpsManager.SelectedShp);
-            SetFramePalette();
         }
 
         private void btnPrecedingFrame_Click(object sender, EventArgs e)
         {
             _controller.ShpsManager.SelectedShp.SelectPrecedingFrame();
             SetupFrame(_controller.ShpsManager.SelectedShp);
-            SetFramePalette();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -340,9 +339,6 @@ namespace ShpApp
                 tbZoom.Text = _zoom.ToString();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }
