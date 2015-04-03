@@ -27,7 +27,8 @@ namespace ShpApp
 
         public override string ToString()
         {
-            return SafeName;
+            DirectoryInfo dInfo = new DirectoryInfo(Filename);
+            return dInfo.Parent + " / " + SafeName;
         }
 
         public void SelectNextFrame()

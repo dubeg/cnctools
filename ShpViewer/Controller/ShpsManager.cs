@@ -42,8 +42,22 @@ namespace ShpApp
             _shps = new ObservableCollection<ShpModel>();
             EngineOption = engineOption;
 
-            if(LoadShp( ShpFilenames.FirstOrDefault()))
+            if( Load() )
                 SelectShp(0);
+        }
+
+        public bool Load()
+        {
+            foreach (var fn in ShpFilenames)
+            {
+                if (File.Exists(fn))
+                {
+                    log.Info("Loading: " + fn);
+                    LoadShp(fn);
+                }
+            }
+
+            return _shps.Count > 0;
         }
 
         public bool LoadShp(string fn)
@@ -110,15 +124,15 @@ namespace ShpApp
             byte[] fData = File.ReadAllBytes(fn);
             try
             {
-                log.Info("Trying now - decoding shpV1");
+                log.Info("Decoding Shp(v1)");
                 frames = ShpLib.V1.DecoderV1.Decode(fData, out shpV1);
                 log.Info("Success");
                 _shps.Add(ConvertToModel(fn, frames, shpV1));
             }
             catch (Exception ex)
             {
-                log.Error(ex.Message);
-                log.Info("Trying now - decoding shpV2");
+                log.Error("Failure : " + ex.Message);
+                log.Info("Decoding Shp(v2)");
                 frames = ShpLib.V2.DecoderV2.Decode(fData, out shpV2);
                 log.Info("Success");
                 _shps.Add(ConvertToModel(fn, frames, shpV2));

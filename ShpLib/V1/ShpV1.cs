@@ -26,6 +26,7 @@ namespace ShpLib.V1
         public UInt16 FrameHeight { get; set; }
         public UInt32 Unknown3 { get; set; }
         public FrameV1[] Frames { get; set; }
-        public UInt32 FileSize { get; set; }
+        public UInt64 FileSize { get; set; }
+        public UInt64 Zero { get; set; }
     }
 }

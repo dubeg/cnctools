@@ -54,8 +54,8 @@ namespace ShpLib.V1
                 }
 
                 // Filesize
-                shp.FileSize = r.ReadUInt32();
-                r.ReadBytes(12);
+                shp.FileSize = r.ReadUInt64();
+                shp.Zero = r.ReadUInt64();
 
                 // Body
                 uint dataLength;
@@ -66,7 +66,7 @@ namespace ShpLib.V1
                     // Find DataLength
                     //------------------------------
                     if (i + 1 == shp.FrameCount)
-                        dataLength = shp.FileSize - f.FileOffset;
+                        dataLength = (uint)shp.FileSize - f.FileOffset;
                     else
                         dataLength = shp.Frames[i + 1].FileOffset - f.FileOffset;
 

@@ -22,8 +22,8 @@ Structure
             - RefOffset :     3 Bytes, unsigned word.       // Offset of reference frame for Format20/40
             - RefFormat :     1 Byte                       // Format of reference frame
 
-        - FileSize      :      4 Bytes, unsigned double word.
-        - Zero          :     12 Bytes
+        - FileSize      :     8 Bytes, unsigned double word.   
+        - Zero          :     8 Bytes
     
     Body
     -----------------------------------------

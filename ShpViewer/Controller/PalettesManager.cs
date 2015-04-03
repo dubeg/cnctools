@@ -12,6 +12,7 @@ namespace ShpApp
     {
         // Vars
         // --------
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private ObservableCollection<PaletteModel> _palettes;
         // Props
         // --------
@@ -34,7 +35,10 @@ namespace ShpApp
             foreach (var fn in PalettesFilenames)
             {
                 if (File.Exists(fn))
+                {
+                    log.Info("Loading: " + fn);
                     _palettes.Add(ConvertToModel(fn, ShpLib.PalEngine.Load(fn)));
+                }
             }
 
             return _palettes.Count > 0;
