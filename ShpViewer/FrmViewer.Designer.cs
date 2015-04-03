@@ -40,6 +40,10 @@
             this.tbZero = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.gbV1 = new System.Windows.Forms.GroupBox();
+            this.tbZeroV1 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbFilesizeV1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tbC = new System.Windows.Forms.TextBox();
             this.tbB = new System.Windows.Forms.TextBox();
             this.tbA = new System.Windows.Forms.TextBox();
@@ -48,26 +52,26 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblSlashCount = new System.Windows.Forms.Label();
             this.lblCount = new System.Windows.Forms.Label();
-            this.tbFilesizeV1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbZeroV1 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.gbHeader = new System.Windows.Forms.GroupBox();
+            this.tbHeaderHeight = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tbHeaderWidth = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tbHeaderFrameCount = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.tbHeaderHeight = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.lblMessage = new System.Windows.Forms.Label();
             this.palCtrl = new WinCtrls.PaletteControl();
             this.pnlFrame = new System.Windows.Forms.Panel();
             this.pbFrame = new WinCtrls.PictureBoxIndexed();
+            this.gbFrameV1 = new System.Windows.Forms.GroupBox();
+            this.tbFrameFormatV1 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.gbV2.SuspendLayout();
             this.gbV1.SuspendLayout();
             this.gbHeader.SuspendLayout();
             this.pnlFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).BeginInit();
+            this.gbFrameV1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbPalettes
@@ -90,7 +94,8 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(593, 12);
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(746, 533);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -101,9 +106,10 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.button2.Enabled = false;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(593, 92);
+            this.button2.Location = new System.Drawing.Point(746, 613);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 8;
@@ -112,7 +118,8 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(593, 41);
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(746, 562);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 9;
@@ -194,6 +201,40 @@
             this.gbV1.TabStop = false;
             this.gbV1.Text = "Shp V1";
             // 
+            // tbZeroV1
+            // 
+            this.tbZeroV1.Location = new System.Drawing.Point(254, 47);
+            this.tbZeroV1.Name = "tbZeroV1";
+            this.tbZeroV1.ReadOnly = true;
+            this.tbZeroV1.Size = new System.Drawing.Size(100, 20);
+            this.tbZeroV1.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(199, 50);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 13);
+            this.label5.TabIndex = 8;
+            this.label5.Text = "Zero";
+            // 
+            // tbFilesizeV1
+            // 
+            this.tbFilesizeV1.Location = new System.Drawing.Point(254, 24);
+            this.tbFilesizeV1.Name = "tbFilesizeV1";
+            this.tbFilesizeV1.ReadOnly = true;
+            this.tbFilesizeV1.Size = new System.Drawing.Size(100, 20);
+            this.tbFilesizeV1.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(199, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Filesize";
+            // 
             // tbC
             // 
             this.tbC.Location = new System.Drawing.Point(70, 70);
@@ -263,40 +304,6 @@
             this.lblCount.TabIndex = 16;
             this.lblCount.Text = "0";
             // 
-            // tbFilesizeV1
-            // 
-            this.tbFilesizeV1.Location = new System.Drawing.Point(254, 24);
-            this.tbFilesizeV1.Name = "tbFilesizeV1";
-            this.tbFilesizeV1.ReadOnly = true;
-            this.tbFilesizeV1.Size = new System.Drawing.Size(100, 20);
-            this.tbFilesizeV1.TabIndex = 7;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(199, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Filesize";
-            // 
-            // tbZeroV1
-            // 
-            this.tbZeroV1.Location = new System.Drawing.Point(254, 47);
-            this.tbZeroV1.Name = "tbZeroV1";
-            this.tbZeroV1.ReadOnly = true;
-            this.tbZeroV1.Size = new System.Drawing.Size(100, 20);
-            this.tbZeroV1.TabIndex = 9;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(199, 50);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 13);
-            this.label5.TabIndex = 8;
-            this.label5.Text = "Zero";
-            // 
             // gbHeader
             // 
             this.gbHeader.Controls.Add(this.tbHeaderHeight);
@@ -311,6 +318,23 @@
             this.gbHeader.TabIndex = 14;
             this.gbHeader.TabStop = false;
             this.gbHeader.Text = "Header";
+            // 
+            // tbHeaderHeight
+            // 
+            this.tbHeaderHeight.Location = new System.Drawing.Point(254, 40);
+            this.tbHeaderHeight.Name = "tbHeaderHeight";
+            this.tbHeaderHeight.ReadOnly = true;
+            this.tbHeaderHeight.Size = new System.Drawing.Size(100, 20);
+            this.tbHeaderHeight.TabIndex = 11;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(199, 43);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(38, 13);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Height";
             // 
             // tbHeaderWidth
             // 
@@ -345,23 +369,6 @@
             this.label9.Size = new System.Drawing.Size(41, 13);
             this.label9.TabIndex = 4;
             this.label9.Text = "Frames";
-            // 
-            // tbHeaderHeight
-            // 
-            this.tbHeaderHeight.Location = new System.Drawing.Point(254, 40);
-            this.tbHeaderHeight.Name = "tbHeaderHeight";
-            this.tbHeaderHeight.ReadOnly = true;
-            this.tbHeaderHeight.Size = new System.Drawing.Size(100, 20);
-            this.tbHeaderHeight.TabIndex = 11;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(199, 43);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(38, 13);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Height";
             // 
             // lblMessage
             // 
@@ -400,11 +407,40 @@
             this.pbFrame.TabIndex = 0;
             this.pbFrame.TabStop = false;
             // 
+            // gbFrameV1
+            // 
+            this.gbFrameV1.Controls.Add(this.tbFrameFormatV1);
+            this.gbFrameV1.Controls.Add(this.label4);
+            this.gbFrameV1.Location = new System.Drawing.Point(605, 15);
+            this.gbFrameV1.Name = "gbFrameV1";
+            this.gbFrameV1.Size = new System.Drawing.Size(188, 114);
+            this.gbFrameV1.TabIndex = 14;
+            this.gbFrameV1.TabStop = false;
+            this.gbFrameV1.Text = "Frame v1";
+            // 
+            // tbFrameFormatV1
+            // 
+            this.tbFrameFormatV1.Location = new System.Drawing.Point(70, 22);
+            this.tbFrameFormatV1.Name = "tbFrameFormatV1";
+            this.tbFrameFormatV1.ReadOnly = true;
+            this.tbFrameFormatV1.Size = new System.Drawing.Size(100, 20);
+            this.tbFrameFormatV1.TabIndex = 5;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Format";
+            // 
             // FrmViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(677, 649);
+            this.ClientSize = new System.Drawing.Size(833, 649);
+            this.Controls.Add(this.gbFrameV1);
             this.Controls.Add(this.pnlFrame);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.gbHeader);
@@ -432,6 +468,8 @@
             this.gbHeader.PerformLayout();
             this.pnlFrame.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbFrame)).EndInit();
+            this.gbFrameV1.ResumeLayout(false);
+            this.gbFrameV1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -474,6 +512,9 @@
         private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Panel pnlFrame;
         private WinCtrls.PictureBoxIndexed pbFrame;
+        private System.Windows.Forms.GroupBox gbFrameV1;
+        private System.Windows.Forms.TextBox tbFrameFormatV1;
+        private System.Windows.Forms.Label label4;
     }
 }
 

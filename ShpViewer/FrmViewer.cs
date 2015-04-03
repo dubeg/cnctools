@@ -120,6 +120,15 @@ namespace ShpApp
         private void SetupFrame(ShpModel shp)
         {
             tbIndex.Text = shp.FrameIndex.ToString();
+            if (shp.RawShp is ShpLib.V1.ShpV1)
+            {
+                ShpV1 v1 = (ShpV1)shp.RawShp;
+                tbFrameFormatV1.Text = v1.Frames[shp.FrameIndex].Format.ToString("X2");
+            }
+            else
+            {
+                ShpV2 v2 = (ShpV2)shp.RawShp;
+            }
             DrawFrame(shp);
         }
 
