@@ -1,4 +1,6 @@
 ﻿using Log4NetEx;
+using ShpLib.V1;
+using ShpLib.V2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,17 +22,16 @@ namespace ShpApp
         //--------
         private const string _MEMORY_APPENDER_NAME = "MemoryAppender";
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private int _zoom = 4;
         private Controller _controller;
         private FrmLogBox _logBox;
         private LogWatcher _logWatcher;
-        private ShpModel _currentShp;
         private Bitmap _bmp;
         // Methods
         //--------
         public FrmViewer()
         {
             InitializeComponent();
-            _controller = new Controller();
         }
 
         private void FrmViewer_Load(object sender, EventArgs e)
@@ -40,19 +41,18 @@ namespace ShpApp
             InitLogBox();
 
             // Others
+            _controller = new Controller();
             lbPalettes.DataSource = _controller.PalettesManager.Palettes;
             lbShps.DataSource = _controller.ShpsManager.Shps;
 
             if (_controller.ShpsManager.SelectedShp != null)
             {
-                _currentShp = _controller.ShpsManager.SelectedShp;
-                lbShps.SelectedItem = _currentShp;
-                DrawFrame();
+                lbShps.SelectedItem = _controller.ShpsManager.SelectedShp;
+                SetupShp(_controller.ShpsManager.SelectedShp);
             }
 
             if (_controller.PalettesManager.SelectedPalette != null)
             {
-                lbPalettes.SelectedItem = _controller.PalettesManager.SelectedPalette;
                 SetupPalette();
             }
         }
@@ -84,6 +84,45 @@ namespace ShpApp
         }
         #endregion
 
+        private void SetupShp(ShpApp.ShpModel shp)
+        {
+            if (shp.RawShp is ShpLib.V1.ShpV1)
+            {
+                gbV1.Enabled = true;
+                gbV2.Enabled = false;
+                ShpV1 v1 = (ShpV1)shp.RawShp;
+                tbA.Text = v1.Unknown1.ToString();
+                tbB.Text = v1.Unknown2.ToString();
+                tbC.Text = v1.Unknown3.ToString();
+                tbFilesizeV1.Text = v1.FileSize.ToString();
+                tbZeroV1.Text = v1.Zero.ToString();
+
+                tbHeaderFrameCount.Text = v1.FrameCount.ToString();
+                tbHeaderHeight.Text = v1.FrameHeight.ToString();
+                tbHeaderWidth.Text = v1.FrameWidth.ToString();
+            }
+            else
+            {
+                gbV2.Enabled = true;
+                gbV1.Enabled = false;
+                ShpV2 v2 = (ShpV2)shp.RawShp;
+                tbZero.Text = v2.Unknown1.ToString();
+
+                tbHeaderFrameCount.Text = v2.FrameCount.ToString();
+                tbHeaderHeight.Text = v2.FrameHeight.ToString();
+                tbHeaderWidth.Text = v2.FrameWidth.ToString();
+            }
+
+            lblCount.Text = shp.Frames.Count.ToString();
+            SetupFrame(shp);
+        }
+
+        private void SetupFrame(ShpModel shp)
+        {
+            tbIndex.Text = shp.FrameIndex.ToString();
+            DrawFrame(shp);
+        }
+
         private void SetupPalette()
         {
             palCtrl.SetTitle(_controller.PalettesManager.SelectedPalette.Name);
@@ -102,13 +141,16 @@ namespace ShpApp
             pbFrame.Invalidate();
         }
 
-        public void DrawFrame()
+        public void DrawFrame(ShpModel shp)
         {
-            ShpModel shp = _controller.ShpsManager.SelectedShp;
             Setbitmap(shp, out _bmp);
 
             if (_bmp != null)
+            {
                 pbFrame.Image = _bmp;
+                pbFrame.Width = _bmp.Width * _zoom;
+                pbFrame.Height = _bmp.Height * _zoom;
+            }
         }
 
         private void SetColors(ColorPalette pal, Color[] colors)
@@ -157,17 +199,19 @@ namespace ShpApp
             return bmp;
         }
 
+        //---------------------------------------------------------------------
+
         private void btnNextFrame_Click(object sender, EventArgs e)
         {
-            _currentShp.SelectNextFrame();
-            DrawFrame();
+            _controller.ShpsManager.SelectedShp.SelectNextFrame();
+            SetupFrame(_controller.ShpsManager.SelectedShp);
             SetFramePalette();
         }
 
         private void btnPrecedingFrame_Click(object sender, EventArgs e)
         {
-            _currentShp.SelectPrecedingFrame();
-            DrawFrame();
+            _controller.ShpsManager.SelectedShp.SelectPrecedingFrame();
+            SetupFrame(_controller.ShpsManager.SelectedShp);
             SetFramePalette();
         }
 
@@ -183,7 +227,7 @@ namespace ShpApp
             dlg.Filter = _SAVE_FILE_DLG_FILTER;
             dlg.Title = _SAVE_FILE_DLG_TITLE;
             dlg.OverwritePrompt = true;
-            dlg.FileName = Path.GetFileName(_currentShp.Filename);
+            dlg.FileName = Path.GetFileName(_controller.ShpsManager.SelectedShp.Filename);
             switch (dlg.ShowDialog())
             {
                 case DialogResult.OK:
@@ -235,8 +279,20 @@ namespace ShpApp
 
         private void lbPalettes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _controller.PalettesManager.SelectPalette(lbPalettes.SelectedIndex);
-            SetupPalette();
+            if (lbPalettes.SelectedIndex >= 0)
+            {
+                _controller.PalettesManager.SelectPalette(lbPalettes.SelectedIndex);
+                SetupPalette();
+            }
+        }
+
+        private void lbShps_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lbShps.SelectedIndex >= 0)
+            {
+                _controller.ShpsManager.SelectShp(lbShps.SelectedIndex);
+                SetupShp(_controller.ShpsManager.SelectedShp);
+            }
         }
     }
 }
