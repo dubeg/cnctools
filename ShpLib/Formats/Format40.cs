@@ -27,6 +27,7 @@ namespace ShpLib.Formats
                     if (v != 0x80)
                     {
                         // CMD #1 : Small Skip
+                        // 1ccccccc
                         //-------------------------------------
                         count = v & 0x7F;
                         dIndex += count;
@@ -39,15 +40,17 @@ namespace ShpLib.Formats
 
                         tc = (count & 0xC000) >> 14;
 
-                        if (tc == 0 || tc == 1)
+                        if (tc == 0x00 || tc == 0x01)
                         {
                             // CMD #2 : Big Skip
+                            // 10000000 0ccccccc c
                             //-------------------------------------
                             dIndex += count;
                         }
-                        else if (tc == 2)
+                        else if (tc == 0x10)
                         {
                             // CMD #3 : Big XOR
+                            // 10000000 10cccccc c
                             //-------------------------------------
                             count = count & 0x3FFF;
 
@@ -57,9 +60,10 @@ namespace ShpLib.Formats
                                 ++dIndex;
                             }
                         }
-                        else if (tc == 3)
+                        else if (tc == 0x11)
                         {
                             // CMD #4 : Big Repeated XOR
+                            // 10000000 11cccccc c v
                             //-------------------------------------
                             count = count & 0x3FFF;
                             colorIndex = src[sIndex++];
@@ -75,14 +79,13 @@ namespace ShpLib.Formats
                             throw new Exception("DecodeFormat40 Error. Invalid tc value.");
                         }
                     }
-
                 }
                 else
                 {
-                    // XOR CMDs
                     if (v == 0)
                     {
                         // CMD #6 : REPEATED XOR
+                        // 00000000 cccccccc vvvvvvvv
                         //-------------------------------------
                         count = src[sIndex++];
                         colorIndex = src[sIndex++];
@@ -96,6 +99,7 @@ namespace ShpLib.Formats
                     else
                     {
                         // CMD #5 : COPY XOR
+                        // 0ccccccc
                         //-------------------------------------
                         count = v;
 
