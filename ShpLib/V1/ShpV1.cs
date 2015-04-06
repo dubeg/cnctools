@@ -28,5 +28,6 @@ namespace ShpLib.V1
         public FrameV1[] Frames { get; set; }
         public UInt64 FileSize { get; set; }
         public UInt64 Zero { get; set; }
+        public FrameV1 SpecialFrame;
     }
 }

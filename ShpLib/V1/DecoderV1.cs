@@ -40,22 +40,24 @@ namespace ShpLib.V1
                 // Frame headers
                 for (int i = 0; i < shp.FrameCount; i++)
                 {
-                    FrameV1 f = new FrameV1();
+                    FrameV1 f = new FrameV1(r.BaseStream);
                     shp.Frames[i] = f;
-
-                    f.FileOffset = r.ReadByte();
-                    f.FileOffset = f.FileOffset + (uint)(r.ReadByte() << 8);
-                    f.FileOffset = f.FileOffset + (uint)(r.ReadByte() << 16);
-                    f.Format = r.ReadByte();
-                    f.RefOffset = r.ReadByte();
-                    f.RefOffset = f.RefOffset + (uint)(r.ReadByte() << 8);
-                    f.RefOffset = f.RefOffset + (uint)(r.ReadByte() << 16);
-                    f.RefFormat = r.ReadByte();
                 }
 
                 // Filesize
                 shp.FileSize = r.ReadUInt64();
                 shp.Zero = r.ReadUInt64();
+
+                // Special case
+                if (shp.Zero != 0)
+                {
+                    // Frame, format20 (xor over preceding frame)
+                    // RefOffset and RefFormat here means nothing (idk what the values are for)
+                    // Desc: gives differences between first and last frame
+                    // TODO: special field to ShpV1 (ex: LoopDiffOffset)
+                    shp.SpecialFrame = new FrameV1(new MemoryStream( BitConverter.GetBytes(shp.FileSize) ));
+                    shp.FileSize = shp.Zero;
+                }
 
                 // Body
                 uint dataLength;
@@ -66,9 +68,15 @@ namespace ShpLib.V1
                     // Find DataLength
                     //------------------------------
                     if (i + 1 == shp.FrameCount)
-                        dataLength = (uint)shp.FileSize - f.FileOffset;
+                    {
+                        if (shp.SpecialFrame != null)
+                            dataLength = shp.SpecialFrame.FileOffset - f.FileOffset;
+                        else
+                            dataLength = (uint)shp.FileSize - f.FileOffset;
+                    }
                     else
                         dataLength = shp.Frames[i + 1].FileOffset - f.FileOffset;
+                    f.CalculatedDataLength = dataLength;
 
                     // Read Data
                     //------------------------------
