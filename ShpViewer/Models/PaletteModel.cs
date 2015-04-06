@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
 
 namespace ShpApp
 {
@@ -23,7 +24,8 @@ namespace ShpApp
 
         public override string ToString()
         {
-            return Name;
+            DirectoryInfo dInfo = new DirectoryInfo(Filename);
+            return dInfo.Parent + " / " + Name;
         }
     }
 
