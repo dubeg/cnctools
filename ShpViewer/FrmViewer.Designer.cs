@@ -126,7 +126,7 @@
             this.gbV2.Size = new System.Drawing.Size(176, 165);
             this.gbV2.TabIndex = 13;
             this.gbV2.TabStop = false;
-            this.gbV2.Text = "Shp V2";
+            this.gbV2.Text = "Shp v.2";
             // 
             // tbZero
             // 
@@ -162,11 +162,11 @@
             this.gbV1.Size = new System.Drawing.Size(184, 165);
             this.gbV1.TabIndex = 14;
             this.gbV1.TabStop = false;
-            this.gbV1.Text = "Shp V1";
+            this.gbV1.Text = "Shp v.1";
             // 
             // tbZeroV1
             // 
-            this.tbZeroV1.Location = new System.Drawing.Point(70, 117);
+            this.tbZeroV1.Location = new System.Drawing.Point(70, 129);
             this.tbZeroV1.Name = "tbZeroV1";
             this.tbZeroV1.ReadOnly = true;
             this.tbZeroV1.Size = new System.Drawing.Size(100, 20);
@@ -175,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 120);
+            this.label5.Location = new System.Drawing.Point(15, 132);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 13);
             this.label5.TabIndex = 8;
@@ -183,7 +183,7 @@
             // 
             // tbFilesizeV1
             // 
-            this.tbFilesizeV1.Location = new System.Drawing.Point(70, 94);
+            this.tbFilesizeV1.Location = new System.Drawing.Point(70, 106);
             this.tbFilesizeV1.Name = "tbFilesizeV1";
             this.tbFilesizeV1.ReadOnly = true;
             this.tbFilesizeV1.Size = new System.Drawing.Size(100, 20);
@@ -192,7 +192,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 97);
+            this.label3.Location = new System.Drawing.Point(15, 109);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 6;
@@ -370,7 +370,7 @@
             this.gbFrameV1.Size = new System.Drawing.Size(188, 114);
             this.gbFrameV1.TabIndex = 14;
             this.gbFrameV1.TabStop = false;
-            this.gbFrameV1.Text = "Frame v1";
+            this.gbFrameV1.Text = "Frame v.1";
             // 
             // tbFrameFormatV1
             // 
