@@ -96,6 +96,7 @@ namespace ShpLib.V1
                             break;
                         case 0x40:
                             // Find reference frame
+                            // todo: create BST or hash tables for retrieving ref. frames faster if need be
                             for (int j = i - 1; j >= 0; --j)
                                 if (shp.Frames[j].FileOffset == f.RefOffset)
                                 {
