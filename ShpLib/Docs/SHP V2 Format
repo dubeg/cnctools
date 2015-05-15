@@ -1,9 +1,8 @@
 SHP Version 2
 ===================================================================
-Name    :    ???
+Ext     :    .shp
 Games   :    TS, RA2, YR
-Desc    :    Contains unit/structure/tree graphic.
-
+Desc    :    Contains unit/structure/env. graphic.
 
 
 
@@ -29,8 +28,9 @@ Header
         - FileOffset :    4 Bytes, unsigned double word.
 -----------------------------------------
 Body
-    - CompressedFrames []
+    - CompressedFrames [ FrameCount ]
 -----------------------------------------
+
 
 
 

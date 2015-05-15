@@ -1,36 +1,39 @@
-File
-===============================================
-    Ext     :    .shp
-    Games   :    TD, RA1
-    Desc    :    Contains a graphic unit. { Unit | Structure | Tree | ... } 
+SHP Version 1
+===================================================================
+Ext     :    .shp
+Games   :    TD, RA1
+Desc    :    Contains unit/structure/env. graphic.
+
+
 
 Structure
-===============================================
+-----------------------------------------
+Header
+    - FrameCount  :    2 Bytes, unsigned word
+    - Unknown1    :    2 Bytes, ??              WSA:: X position on screen of the upper left corner
+    - Unknown2    :    2 Bytes, ??              WSA:: Y position on screen of the upper left corner
+    - FrameWidth  :    2 Bytes, unsigned word
+    - FrameHeight :    2 Bytes, unsigned word
+    - Unknown3    :    4 Bytes, ??              WSA:: Delta (frames/sec = delta / (2^10)
+    - FrameHeaders [ FrameCount ]
+        - Offset    :     3 Bytes, unsigned word.      // Offset of frame data in file (from the beginning of file)
+        - Format    :     1 Byte                       // Format of frame data
 
-    Header
-    -----------------------------------------
-        - FrameCount  :    2 Bytes, unsigned word
-        - Unknown1    :    2 Bytes, ??              WSA:: X position on screen of the upper left corner
-        - Unknown2    :    2 Bytes, ??              WSA:: Y position on screen of the upper left corner
-        - FrameWidth  :    2 Bytes, unsigned word
-        - FrameHeight :    2 Bytes, unsigned word
-        - Unknown3    :    4 Bytes, ??              WSA:: Delta (frames/sec = delta / (2^10)
-        - FrameHeaders [ FrameCount ]
-            - Offset    :     3 Bytes, unsigned word.       // Offset of frame data in file (from the beginning of file)
-            - Format    :     1 Byte                       // Format of frame data
+        - RefOffset :     3 Bytes, unsigned word.      // Offset of reference frame for Format20/40
+        - RefFormat :     1 Byte                       // Format of reference frame
 
-            - RefOffset :     3 Bytes, unsigned word.       // Offset of reference frame for Format20/40
-            - RefFormat :     1 Byte                       // Format of reference frame
+    - FileSize      :     8 Bytes, unsigned double word.   
+    - Zero          :     8 Bytes
+-----------------------------------------
+Body
+    - Compressed Frames [ FrameCount ]
+-----------------------------------------    
 
-        - FileSize      :     8 Bytes, unsigned double word.   
-        - Zero          :     8 Bytes
-    
-    Body
-    -----------------------------------------
-        - Compressed Frames [ FrameCount ]
+
+
 
 Notes
-===============================================
+===================================================================
     * Frame Size < 64KB
 
     * Shadow Color Index      
@@ -77,9 +80,9 @@ Format80
     The relative position is relative to the current position.
 
 
-    CMD #1
+    CMD #
     -------------------------------------------------------------------
-        - Name : COPY AS IS.
+        - Name : COPY AS IS
         - Size : 1 Byte
         - Desc : Copy next COUNT bytes from Source to Destination.
 
@@ -93,12 +96,12 @@ Format80
 
 
 
-    CMD #2
+    CMD #
     -------------------------------------------------------------------
-        - Name : Repeat
+        - Name : REPEAT (FROM RELATIVE POSITION)
         - Size : 2 Bytes
         - Desc : Copy next COUNT bytes from Destination ..
-                                                     AT    ( CurrentPosition - RelativePosition )
+                                                     AT    ( CurrentPosition - Offset )
                                                      TO CurrentPosition
 
             1st                                 2nd
@@ -107,22 +110,23 @@ Format80
             +---+---+---+---+---+---+---+---+   +---+---+---+---+---+---+---+---+
                 \___________/\__________________________________________________/
                       |                             |
-                    Count                    Relative Position
+                    Count                    Offset
 
 
         * You have to add 3 to the Count to obtain the COUNT. 
                         i.e. COUNT = Count + 3
 
-        * IF RelativePosition == 1, THEN COPY the previous byte COUNT times.
+        * IF Offset == 1, THEN COPY the previous byte COUNT times.
 
 
 
-    CMD #3
+    CMD #
     -------------------------------------------------------------------
-        - Name : Copy
+        - Name : REPEAT (FROM ABSOLUTE POSITION)
         - Size : 3 Bytes
-        - Desc : Copy COUNT bytes FROM Position ( where Position IS ABSOLUTE from the start of the Destination )
-                                  AT   Current Position.
+        - Desc : Copy COUNT bytes from Destination ..
+        						  				AT Position ( absolute from the start of Destination )
+                                  				TO Current Position.
 
             1st                                 3rd             2nd
             +---+---+---+---+---+---+---+---+   +---------------+---------------+
@@ -138,9 +142,28 @@ Format80
             * Position is 2 Bytes, => FRAME <= 64K 
 
 
-    CMD #4
+    CMD #
     -------------------------------------------------------------------
-        - Name : Fill
+        - Name : LARGE REPEAT (FROM ABSOLUTE POSITION)
+        - Size : 5 Bytes
+        - Desc : Copy COUNT bytes from Destination ..
+                                                    AT Position ( absolute from the start of Destination )
+                                                    TO Current Position.
+
+            1st                                 3rd     2nd        5th     4th
+            +---+---+---+---+---+---+---+---+   +-------+-------+  +-------+-------+
+            | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |   |       |       |  |       |       |
+            +---+---+---+---+---+---+---+---+   +-------+-------+  +-------+-------+
+                                                      COUNT             Position
+
+        * COUNT    = 2 Bytes
+        * Position = 2 Bytes
+
+
+
+    CMD #
+    -------------------------------------------------------------------
+        - Name : FILL
         - Size : 4 Bytes
         - Desc : Write ColorIndex COUNT times.
 
@@ -154,29 +177,10 @@ Format80
             * ColorIndex = 1 Byte
 
 
-    CMD #5
-    -------------------------------------------------------------------
-        - Name : LargeCopy
-        - Size : 5 Bytes
-        - Desc : Copy COUNT bytes from Destination ..
-                                                    AT Position ( absolute from the start of Destination )
-
-            1st                                 3rd     2nd        5th     4th
-            +---+---+---+---+---+---+---+---+   +-------+-------+  +-------+-------+
-            | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |   |       |       |  |       |       |
-            +---+---+---+---+---+---+---+---+   +-------+-------+  +-------+-------+
-                                                      COUNT             Position
-
-        * COUNT    = 2 Bytes
-        * Position = 2 Bytes
-
     Notes
     -----------------------------------------------
         * All 0x80 Frames end with 0x80 command.
 
-        * Frames can all be encoded with this format.
-          The downside is that the file will be larger.
-          The upside is that the encoding will be easier to code.
 
 Format40
 ===============================================
@@ -187,9 +191,9 @@ Format40
     Destination contains the decoded reference frame.
 
 
-    CMD #1
+    CMD #
     -------------------------------------------------------------------
-        - Name : Small Skip
+        - Name : Skip
         - Size : 1 Bytes
         - Desc : Skip COUNT bytes in Destination
 
@@ -203,9 +207,9 @@ Format40
 
 
 
-    CMD #2
+    CMD #
     -------------------------------------------------------------------
-        - Name : Big Skip
+        - Name : Large Skip
         - Size : 3 Bytes
         - Desc : Skip COUNT bytes in Destination.
 
@@ -218,45 +222,9 @@ Format40
                                                           |
                                                         COUNT
 
-
-
-    CMD #3
+    CMD #
     -------------------------------------------------------------------
-        - Name : Big XOR
-        - Size : 3 Bytes
-        - Desc : XOR next COUNT bytes.
-                 * i.e. XOR COUNT bytes from Source with bytes from Destination.      
-
-            1st                                3rd           2nd
-            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+
-            | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  | 1 | 0 | ... |       |
-            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+
-                                                       \_____________/
-                                                              |
-                                                            COUNT
-
-
-
-    CMD #4
-    -------------------------------------------------------------------
-        - Name : Big Repeated XOR
-        - Size : 4 Bytes
-        - Desc : XOR next COUNT bytes in Destination with VALUE.
-
-
-            1st                                3rd           2nd        4th
-            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+  +-------+
-            | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  | 1 | 1 | ... |       |  |       |
-            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+  +-------+
-                                                       \_____________/    VALUE
-                                                               |
-                                                             COUNT
-
-
-
-    CMD #5
-    -------------------------------------------------------------------
-        - Name : Copy XOR
+        - Name : XOR
         - Size : 1 Bytes
         - Desc : XOR next COUNT bytes from Source with Destination. 
 
@@ -270,17 +238,50 @@ Format40
 
 
 
-    CMD #6
+    CMD #
     -------------------------------------------------------------------
-        - Name : Repeated XOR
+        - Name : Large XOR
         - Size : 3 Bytes
-        - Desc : XOR next COUNT bytes with VALUE.                         
+        - Desc : XOR next COUNT bytes from Source with Destination.      
+
+            1st                                3rd           2nd
+            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+
+            | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  | 1 | 0 | ... |       |
+            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+
+                                                       \_____________/
+                                                              |
+                                                            COUNT
+
+
+    CMD #
+    -------------------------------------------------------------------
+        - Name : Fill XOR
+        - Size : 3 Bytes
+        - Desc : XOR next COUNT bytes in Destination with VALUE.           
 
             1st                                2nd        3rd
             +---+---+---+---+---+---+---+---+  +-------+  +-------+
             | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  |       |  |       |
             +---+---+---+---+---+---+---+---+  +-------+  +-------+
                                                  COUNT      VALUE
+
+
+
+    CMD #
+    -------------------------------------------------------------------
+        - Name : Large Fill XOR
+        - Size : 4 Bytes
+        - Desc : XOR next COUNT bytes in Destination with VALUE.
+
+
+            1st                                3rd           2nd        4th
+            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+  +-------+
+            | 1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  | 1 | 1 | ... |       |  |       |
+            +---+---+---+---+---+---+---+---+  +---+---+-----+-------+  +-------+
+                                                       \_____________/    VALUE
+                                                               |
+                                                             COUNT
+
 
     Notes
     -------------------------------------------------------------------

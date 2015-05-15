@@ -55,6 +55,10 @@ namespace ShpApp
                     log.Info("Loading: " + fn);
                     LoadShp(fn);
                 }
+                else
+                {
+                    log.Warn("Not found: " + fn);
+                }
             }
 
             return _shps.Count > 0;

@@ -19,6 +19,7 @@ namespace ShpApp
         // Constants
         // ---------
         private readonly string FILENAME_SETTINGS;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         // Vars
         // ---------
         private ObservableCollection<string> _shpFilenames;
@@ -44,6 +45,7 @@ namespace ShpApp
             bool loaded = false;
             if (File.Exists(FILENAME_SETTINGS))
             {
+                log.Info("Loading: " + FILENAME_SETTINGS);
                 StreamReader reader;
                 string line;
                 Sections cSec;
@@ -56,7 +58,7 @@ namespace ShpApp
                     line = line.Trim().ToLower();
 
                     if (line.Length > 0)
-                        if(!ParseSection(line, ref cSec))
+                        if (!ParseSection(line, ref cSec))
                         {
                             switch (cSec)
                             {
@@ -77,6 +79,10 @@ namespace ShpApp
                 }
                 reader.Dispose();
                 loaded = true;
+            }
+            else
+            {
+                log.Warn("Not found: " + FILENAME_SETTINGS);
             }
             return loaded;
         }

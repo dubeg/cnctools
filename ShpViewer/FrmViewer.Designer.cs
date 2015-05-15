@@ -395,6 +395,7 @@
             this.tbZoom.Name = "tbZoom";
             this.tbZoom.Size = new System.Drawing.Size(52, 20);
             this.tbZoom.TabIndex = 20;
+            this.tbZoom.Text = "1";
             this.tbZoom.TextChanged += new System.EventHandler(this.tbZoom_TextChanged);
             this.tbZoom.Leave += new System.EventHandler(this.tbZoom_Leave);
             // 

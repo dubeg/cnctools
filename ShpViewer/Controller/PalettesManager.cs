@@ -39,6 +39,10 @@ namespace ShpApp
                     log.Info("Loading: " + fn);
                     _palettes.Add(ConvertToModel(fn, ShpLib.PalEngine.Load(fn)));
                 }
+                else
+                {
+                    log.Warn("Not found: " + fn);
+                }
             }
 
             return _palettes.Count > 0;

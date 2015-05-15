@@ -135,6 +135,7 @@ namespace ShpApp
                 ShpV2 v2 = (ShpV2)shp.RawShp;
             }
             DrawFrame(shp);
+            if (_controller.PalettesManager.SelectedPalette != null)
             SetFramePalette();
         }
 
